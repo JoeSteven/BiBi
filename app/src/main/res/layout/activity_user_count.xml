@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.joe.bibi.activity.UserCountActivity">
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:onClick="updateAvatar"
+                android:id="@id/iv_avatar_update"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:src="@mipmap/icon_userpic_default"
+                app:siBorderWidth="2dp"
+                app:siBorderColor="@color/MainBlue"
+                />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textColor="@color/Gray"
+                android:text="修改头像"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@id/tv_nick_update"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/black"
+                android:text="BBKing"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+            <TextView style="@style/Divider"/>
+            <EditText
+                android:id="@id/et_tag_update"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_edit_gray"
+                android:hint="标签 /号隔开 如犀利/直白"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+    <EditText
+        android:id="@id/et_desc_update"
+        android:hint="一句话来介绍一下自己吧"
+        android:layout_gravity="left|top"
+        android:padding="10dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/shape_edit_gray"
+        android:layout_width="match_parent"
+        android:maxLines="5"
+        android:layout_height="80dp" />
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@id/loading_count"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="0dp">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="正在上传数据..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

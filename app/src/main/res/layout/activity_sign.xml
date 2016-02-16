@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    tools:context="com.joe.bibi.activity.SignActivity">
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:onClick="upLoadAvatar"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@mipmap/icon_userpic_default"
+        android:layout_marginBottom="10dp"
+        android:id="@id/iv_avatar_sign"
+        />
+    <TextView
+        android:textColor="@color/MainBlue"
+        android:text=" @上传头像"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        />
+    <EditText
+        android:id="@id/et_nick_sign"
+        android:hint="昵称（长度2-12）不可修改"
+        style="@style/EditTextLogin"
+        />
+    <EditText
+        android:id="@id/et_mail_sign"
+        android:hint="输入注册邮箱"
+        style="@style/EditTextLogin"
+        />
+    <EditText
+        android:inputType="textPassword"
+        android:id="@id/et_pass_sign"
+        android:hint="输入密码"
+        style="@style/EditTextLogin"
+        />
+    <TextView
+        android:textColor="@color/MainBlue"
+        android:text=" @输入信息后点击右上角确定"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        />
+</LinearLayout>

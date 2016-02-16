@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LoginActivity-->
+    <item type="id" name="iv_avatar_log"/>
+    <item type="id" name="et_user_log"/>
+    <item type="id" name="et_pass_log"/>
+    <item type="id" name="content_login"/>
+    <item type="id" name="tv_loading_login"/>
+    <!-- SignActivity-->
+    <item type="id" name="iv_avatar_sign"/>
+    <item type="id" name="et_nick_sign"/>
+    <item type="id" name="et_pass_sign"/>
+    <item type="id" name="et_mail_sign"/>
+
+    <!-- HomeActiviy-->
+    <item type="id" name="iv_avatar_home"/>
+    <item type="id" name="tv_nick_home"/>
+    <item type="id" name="fl_frag_home"/>
+    <!-- HomeFragmetn-->
+    <item type="id" name="viewpager_fragment_home"/>
+    <item type="id" name="tab_fagment_home"/>
+    <item type="id" name="list_viewpager_home"/>
+    <item type="id" name="iv_avatar_list"/>
+    <item type="id" name="tv_title_list"/>
+    <item type="id" name="tv_positive_list"/>
+    <item type="id" name="tv_negative_list"/>
+    <item type="id" name="tv_desc_list"/>
+    <item type="id" name="tv_total_list"/>
+    <item type="id" name="loading_pager"/>
+    <!-- 侧滑菜单-->
+    <item type="id" name="count_set_drawer"/>
+    <item type="id" name="exit_count_drawer"/>
+    <!-- 个人资料修改-->
+    <item type="id" name="iv_avatar_update"/>
+    <item type="id" name="tv_nick_update"/>
+    <item type="id" name="et_tag_update"/>
+    <item type="id" name="et_desc_update"/>
+    <item type="id" name="loading_count"/>
+
+</resources>

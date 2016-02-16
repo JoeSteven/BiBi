@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@color/MenuBlue"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+     <com.github.siyamed.shapeimageview.CircularImageView
+         android:id="@id/iv_avatar_home"
+         android:layout_width="66dp"
+         android:layout_height="66dp"
+         android:src="@mipmap/icon_userpic_default"
+         android:paddingTop="@dimen/nav_header_vertical_spacing"
+         app:siBorderWidth="2dp"
+         app:siBorderColor="@color/White"
+         />
+
+    <TextView
+        android:id="@id/tv_nick_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:text="平淡无奇的乔老爷"
+        android:textSize="20sp"
+        android:textColor="@color/White"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+</LinearLayout>
