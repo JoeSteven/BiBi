@@ -1,21 +1,32 @@
 package com.joe.bibi.domain;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
 
 /**
  * Created by Joe on 2016/2/6.
  */
-public class Debate extends BmobObject {
+public class Debate extends BmobObject implements Serializable{
     private String publisher;
     private String title;
     private String desc;
-    private int positive;
-    private int negative;
-    private int total;
+    private Integer positive;
+    private Integer negative;
+    private Integer total;
     private String image;
     private String avatar;
     private String positiveop;
     private String negativeop;
+    private Integer comment;
+
+    public Integer getComment() {
+        return comment;
+    }
+
+    public void setComment(Integer comment) {
+        this.comment = comment;
+    }
 
     public String getAvatar() {
         return avatar;
@@ -65,23 +76,23 @@ public class Debate extends BmobObject {
         this.desc = desc;
     }
 
-    public int getPositive() {
+    public Integer getPositive() {
         return positive;
     }
 
-    public void setPositive(int positive) {
+    public void setPositive(Integer positive) {
         this.positive = positive;
     }
 
-    public int getNegative() {
+    public Integer getNegative() {
         return negative;
     }
 
-    public void setNegative(int negative) {
+    public void setNegative(Integer negative) {
         this.negative = negative;
     }
 
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 

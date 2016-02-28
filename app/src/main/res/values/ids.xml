@@ -11,6 +11,8 @@
     <item type="id" name="et_nick_sign"/>
     <item type="id" name="et_pass_sign"/>
     <item type="id" name="et_mail_sign"/>
+    <item type="id" name="content_sign"/>
+    <item type="id" name="tv_under_sign"/>
 
     <!-- HomeActiviy-->
     <item type="id" name="iv_avatar_home"/>
@@ -37,4 +39,45 @@
     <item type="id" name="et_desc_update"/>
     <item type="id" name="loading_count"/>
 
+    <!-- PublishActivity-->
+    <item type="id" name="et_title_publish"/>
+    <item type="id" name="et_desc_publish"/>
+    <item type="id" name="et_positive_publish"/>
+    <item type="id" name="et_negative_publish"/>
+
+    <!-- DebateActivity-->
+    <item type="id" name="fab_comment_debate"/>
+    <item type="id" name="fab_report_debate"/>
+    <item type="id" name="fab_add_debate"/>
+    <item type="id" name="tv_title_debate"/>
+    <item type="id" name="tv_desc_debate"/>
+    <item type="id" name="tv_positive_debate"/>
+    <item type="id" name="tv_negative_debate"/>
+    <item type="id" name="pro_positive_debate"/>
+    <item type="id" name="pro_negative_debate"/>
+    <item type="id" name="tv_positivenum_debate"/>
+    <item type="id" name="tv_negativenum_debate"/>
+    <item type="id" name="list_comment_debate"/>
+    <item type="id" name="iv_avatar_pub_debate"/>
+    <item type="id" name="tv_nick_pub_debate"/>
+    <item type="id" name="tv_date_debate"/>
+    <item type="id" name="bt_positive_debate"/>
+    <item type="id" name="bt_negative_debate"/>
+    <item type="id" name="tv_comnum_debate"/>
+    <item type="id" name="iv_avatar_comment"/>
+    <item type="id" name="tv_nick_comment"/>
+    <item type="id" name="tv_like_comment"/>
+    <item type="id" name="tv_content_comment"/>
+    <!-- DetailCommentActivity-->
+    <item type="id" name="iv_avatar_detail_comment"/>
+    <item type="id" name="tv_nick_detail_comment"/>
+    <item type="id" name="tv_desc_detail_comment"/>
+    <item type="id" name="tv_like_detail_comment"/>
+    <item type="id" name="tv_content_detail_comment"/>
+    <item type="id" name="tv_date_detail_comment"/>
+
+    <!-- UserActivity-->
+    <item type="id" name="iv_avatar_user"/>
+    <item type="id" name="tv_nick_user"/>
+    <item type="id" name="tv_desc_user"/>
 </resources>

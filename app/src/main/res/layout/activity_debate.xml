@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,28 +7,50 @@
     android:fitsSystemWindows="true"
     tools:context="com.joe.bibi.activity.DebateActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.joe.bibi.view.PullUpListView
+        android:fastScrollEnabled="false"
+        android:scrollbars="none"
+        android:id="@id/list_comment_debate"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_debate" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:layout_height="match_parent"/>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:layout_height="match_parent">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@id/fab_comment_debate"
+            android:visibility="gone"
+            android:clickable="true"
+            app:backgroundTint="@color/Pink"
+            app:rippleColor="@color/DarkPink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_chat_white_36dp" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@id/fab_report_debate"
+            android:clickable="true"
+            android:visibility="gone"
+            app:backgroundTint="@color/Green"
+            app:rippleColor="@color/DarkGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_favorite_border_white_36dp" />
+        <android.support.design.widget.FloatingActionButton
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id="@id/fab_add_debate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add_white_36dp" />
+    </RelativeLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>

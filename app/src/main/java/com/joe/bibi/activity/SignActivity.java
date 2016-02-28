@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bmob.BTPFileResponse;
 import com.bmob.BmobProFile;
@@ -41,6 +44,8 @@ public class SignActivity extends AppCompatActivity {
     private AvatarUtils avatarUtils;
     private String AvatarName;
     private String AvatarUrl;
+    private LinearLayout mContent;
+    private TextView mUnderAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,8 @@ public class SignActivity extends AppCompatActivity {
         mNick = (EditText) findViewById(R.id.et_nick_sign);
         mMail = (EditText) findViewById(R.id.et_mail_sign);
         mPass = (EditText) findViewById(R.id.et_pass_sign);
+        mContent = (LinearLayout) findViewById(R.id.content_sign);
+        mUnderAvatar = (TextView) findViewById(R.id.tv_under_sign);
         mAvatar = "";
         isUpdateAvatar=false;
         AvatarName="default";
@@ -76,7 +83,7 @@ public class SignActivity extends AppCompatActivity {
             }else{
                 signUp();
             }
-            Toast.makeText(this,"注册成功",Toast.LENGTH_SHORT).show();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -111,28 +118,85 @@ public class SignActivity extends AppCompatActivity {
         bbUser.setAvatarName(AvatarName);
         bbUser.setDeviceType("android");
         bbUser.setInstallId(BmobInstallation.getInstallationId(this));
-        bbUser.signUp(this, new SaveListener() {
-            @Override
-            public void onSuccess() {
-                //将用户名密码保存在本地
-                PrefUtils.putString(SignActivity.this,ConsUtils.USER_NAME,bbUser.getUsername());
-                PrefUtils.putString(SignActivity.this,ConsUtils.NICK_NAME,bbUser.getNick());
-                // 将设备与username进行绑定
-                BmobUserManager userManager=BmobUserManager.getInstance(SignActivity.this);
-                userManager.bindInstallationForRegister(bbUser.getUsername());
-                //注册成功直接到主页面并结束LoginActivity
-                Intent intent=new Intent(SignActivity.this,HomeActivity.class);
-                intent.setAction(ConsUtils.SIGN_UP_SUCCESS);
-                startActivity(intent);
-                sendBroadcast(intent);
-                finish();
-            }
+        turnUI(true, bbUser);
 
-            @Override
-            public void onFailure(int i, String s) {
-                ToastUtils.make(SignActivity.this,"注册失败:"+s);
-            }
-        });
+    }
+
+    //改变当前UI
+    private void turnUI(boolean signing, final BBUser bbUser) {
+        if(signing){
+            mContent.setVisibility(View.INVISIBLE);
+            mUnderAvatar.setText("正在注册...");
+            TranslateAnimation ta=new TranslateAnimation(Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,
+                    Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,1.5f);
+            ta.setDuration(1000);
+            ta.setFillAfter(true);
+            circularImageView.startAnimation(ta);
+            ta.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    bbUser.signUp(SignActivity.this, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+                            //将用户名密码保存在本地
+                            PrefUtils.putString(SignActivity.this,ConsUtils.USER_NAME,bbUser.getUsername());
+                            PrefUtils.putString(SignActivity.this,ConsUtils.NICK_NAME,bbUser.getNick());
+                            // 将设备与username进行绑定
+                            BmobUserManager userManager=BmobUserManager.getInstance(SignActivity.this);
+                            userManager.bindInstallationForRegister(bbUser.getUsername());
+                            //注册成功直接到主页面并结束LoginActivity
+                            Intent intent=new Intent(SignActivity.this,HomeActivity.class);
+                            intent.setAction(ConsUtils.SIGN_UP_SUCCESS);
+                            startActivity(intent);
+                            sendBroadcast(intent);
+                            Log.d("BB","注册成功-sign");
+                            ToastUtils.make(SignActivity.this,"注册成功!");
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+                            turnUI(false, null);
+                            ToastUtils.make(SignActivity.this,"注册失败:"+s);
+                        }
+                    });
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }else{
+            TranslateAnimation ta=new TranslateAnimation(Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,
+                    Animation.RELATIVE_TO_SELF,1.5f,Animation.RELATIVE_TO_SELF,0f);
+            ta.setDuration(1000);
+            ta.setFillAfter(true);
+            circularImageView.startAnimation(ta);
+            ta.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mContent.setVisibility(View.VISIBLE);
+                    mUnderAvatar.setText("@上传头像");
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+        }
     }
 
     public void upLoadAvatar(View v){

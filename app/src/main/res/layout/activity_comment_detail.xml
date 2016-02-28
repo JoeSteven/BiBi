@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@id/iv_avatar_detail_comment"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:onClick="goToUserPage"
+                />
+            <TextView
+                android:onClick="likeIt"
+                android:padding="5dp"
+                android:id="@id/tv_like_detail_comment"
+                android:drawableLeft="@drawable/ic_heart_liked"
+                android:drawablePadding="3dp"
+                android:layout_centerVertical="true"
+                android:maxLength="6"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@id/tv_nick_detail_comment"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignTop="@id/iv_avatar_detail_comment"
+                android:layout_toRightOf="@id/iv_avatar_detail_comment"
+                android:layout_toLeftOf="@id/tv_like_detail_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@id/tv_desc_detail_comment"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_toLeftOf="@id/tv_like_detail_comment"
+                android:layout_alignLeft="@id/tv_nick_detail_comment"
+                android:layout_below="@id/tv_nick_detail_comment"
+                android:layout_alignBottom="@id/iv_avatar_detail_comment"
+                android:gravity="bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/iv_avatar_detail_comment"
+                style="@style/Divider" />
+        </RelativeLayout>
+        <TextView
+            android:id="@id/tv_content_detail_comment"
+            android:padding="10dp"
+            android:textColor="@color/LightBlack"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@id/tv_date_detail_comment"
+            android:padding="10dp"
+            android:text="评论于 2016-2-27"
+            android:textSize="16sp"
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

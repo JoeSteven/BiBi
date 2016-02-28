@@ -1,11 +1,13 @@
 package com.joe.bibi.domain;
 
+import java.io.Serializable;
+
 import cn.bmob.im.bean.BmobChatUser;
 
 /**
  * Created by Joe on 2016/1/27.
  */
-public class BBUser extends BmobChatUser {
+public class BBUser extends BmobChatUser implements Serializable{
     private String Desc;//简介
     private String Tag;//标签
     private String AvatarName;

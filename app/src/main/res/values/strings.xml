@@ -8,4 +8,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_user_count">UserCountActivity</string>
     <string name="title_activity_debate">DebateActivity</string>
+    <string name="title_activity_publish">PublishActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_comment_detail">CommentDetailActivity</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

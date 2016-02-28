@@ -26,14 +26,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.github.siyamed.shapeimageview.CircularImageView
+                    android:layout_gravity="center_vertical"
                     android:id="@id/iv_avatar_list"
                     android:layout_marginLeft="20dp"
                     android:layout_width="35dp"
                     android:layout_height="35dp" />
                 <TextView
+                    android:layout_marginLeft="20dp"
                     android:singleLine="true"
                     android:id="@id/tv_title_list"
-                    android:gravity="center"
                     android:textColor="@android:color/black"
                     android:text="该吃饭还是不该吃饭?"
                     android:textSize="18sp"

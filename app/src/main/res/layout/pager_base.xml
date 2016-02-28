@@ -6,10 +6,11 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
+        <com.joe.bibi.view.PullUpListView
             android:divider="@null"
+            android:fastScrollEnabled="false"
+            android:scrollbars="none"
             android:dividerHeight="0dp"
-            android:padding="10dp"
             android:id="@id/list_viewpager_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

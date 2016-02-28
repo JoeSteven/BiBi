@@ -30,13 +30,13 @@
         android:name=".application.BBApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="己见"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name"
+            android:label="己见"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,18 +69,52 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".receiver.MyPushReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="cn.bmob.push.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
+        <!-- 聊天消息接收器 -->
+        <receiver android:name=".receiver.MyMessageReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.push.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- IM聊天所需的Push end -->
+
+
+        <!-- 个性功能中的启动定时检测服务，可选功能 -->
+        <service android:name="cn.bmob.im.poll.BmobPollService">
+            <intent-filter>
+                <action android:name="cn.bmob.im.service.BmobPollService" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".activity.HomeActivity"
-            android:label="@string/title_activity_home"
+            android:label="己见"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.UserCountActivity"
             android:label="修改个人资料"
             android:parentActivityName=".activity.HomeActivity" />
+        <activity android:name=".activity.DebateActivity" />
         <activity
-            android:name=".activity.DebateActivity"
-            android:label="@string/title_activity_debate"
+            android:name=".activity.PublishActivity"
+            android:label="发布辩题"
+            android:parentActivityName=".activity.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.CommentActivity"
+            android:label="发布评论" />
+        <activity android:name=".activity.CommentDetailActivity" />
+        <activity
+            android:name=".activity.UserActivity"
+            android:label="@string/title_activity_user"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

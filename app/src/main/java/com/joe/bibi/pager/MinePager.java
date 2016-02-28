@@ -8,7 +8,7 @@ import android.app.Activity;
 public class MinePager extends BasePager {
     public MinePager(Activity mActivity) {
         super(mActivity);
-        mOrder="-createdAt";
+        mOrder="-total";
     }
     @Override
     public void initTitle() {

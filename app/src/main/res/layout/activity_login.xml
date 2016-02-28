@@ -8,6 +8,13 @@
     android:fitsSystemWindows="true"
     android:gravity="center"
     tools:context=".activity.LoginActivity">
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/ic_logo_login"
+        android:src="@mipmap/ic_login_logo"
+        android:layout_marginBottom="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
@@ -21,8 +28,9 @@
     <TextView
         android:visibility="gone"
         android:id="@id/tv_loading_login"
-        android:textColor="@color/MainBlue"
-        android:text="Loading..."
+        android:textColor="@color/DarkBlue"
+        android:text="欢迎回来"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

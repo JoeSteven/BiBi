@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,12 +35,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import cn.bmob.im.BmobChat;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.ResetPasswordByEmailListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int AUTO_LOGIN =1 ;
     private EditText mUserName;
     private EditText mPassWord;
     private LinearLayout loginContent;
@@ -47,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private CircularImageView circularImageView;
     private BBUser bbUser;
     private SignUpReceiver receiver;
+    private ImageView mLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoading = (TextView) findViewById(R.id.tv_loading_login);
         mUserName = (EditText) findViewById(R.id.et_user_log);
         mPassWord = (EditText) findViewById(R.id.et_pass_log);
+        mLogo = (ImageView) findViewById(R.id.ic_logo_login);
         circularImageView = (CircularImageView) findViewById(R.id.iv_avatar_log);
         File allFile=new File(Environment.getExternalStorageDirectory(),"BiBi");
         if(!allFile.exists()){
@@ -96,6 +101,11 @@ public class LoginActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             circularImageView.setImageBitmap((Bitmap) msg.obj);
+            if(msg.what==AUTO_LOGIN){
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                Log.d("BB", "启动Home-login");
+                finish();
+            }
         }
     };
 
@@ -162,12 +172,17 @@ public class LoginActivity extends AppCompatActivity {
         if(bbUser!= null){
             loginContent.setVisibility(View.GONE);
             mLoading.setVisibility(View.VISIBLE);
-            startActivity(new Intent(this, HomeActivity.class));
-            Log.d("BB", "启动Home-login");
-            finish();
+            mLogo.setVisibility(View.VISIBLE);
+            handler.sendEmptyMessageDelayed(AUTO_LOGIN, 2000);
         }
     }
     private void initBmob() {
+        BmobChat.DEBUG_MODE = true;
+        //BmobIM SDK初始化--只需要这一段代码即可完成初始化
+        BmobChat.getInstance(this).init(ConsUtils.APPLICATION_ID);
+        // 使用推送服务时的初始化操作
+        BmobInstallation.getCurrentInstallation(this).save();
+        // 启动推送服务
         BmobChat.DEBUG_MODE = true;
         //BmobIM SDK初始化--只需要这一段代码即可完成初始化
         BmobChat.getInstance(this).init(ConsUtils.APPLICATION_ID);
@@ -191,6 +206,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View v){
         loginContent.setVisibility(View.GONE);
         mLoading.setVisibility(View.VISIBLE);
+        mLogo.setVisibility(View.VISIBLE);
         String UserName=mUserName.getText().toString();
         //加密用户密码
         String pass= mPassWord.getText().toString();
@@ -223,6 +239,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(int i, String s) {
                 ToastUtils.make(LoginActivity.this, "登陆失败" + s);
                 mLoading.setVisibility(View.GONE);
+                mLogo.setVisibility(View.GONE);
                 loginContent.setVisibility(View.VISIBLE);
             }
         });

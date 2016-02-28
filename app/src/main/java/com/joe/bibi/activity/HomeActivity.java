@@ -40,6 +40,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import cn.bmob.v3.BmobUser;
+
 /*
 * Rereshing 要分页加载，区分下拉刷新和上拉加载更多，用ListView实现pullUp效果
 * query.setSkip()设置跳过数据条数 =currentPage*count+1;
@@ -68,15 +71,6 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Log.d("BB",(toolbar==null)+"toobar为空-Home");
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -102,6 +96,14 @@ public class HomeActivity extends AppCompatActivity
         View menuHeader=View.inflate(this, R.layout.nav_header_home, navigationView);
         mAvatar = (CircularImageView) menuHeader.findViewById(R.id.iv_avatar_home);
         mNickName = (TextView) menuHeader.findViewById(R.id.tv_nick_home);
+        mAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,UserActivity.class);
+                intent.putExtra("user", BmobUser.getCurrentUser(HomeActivity.this,BBUser.class));
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {
@@ -196,7 +198,8 @@ public class HomeActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
+            startActivity(new Intent(this,SearchActivity.class));
             return true;
         }
 
@@ -210,12 +213,12 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.pub_debate_drawer) {
+            startActivity(new Intent(this,PublishActivity.class));
+        } else if (id == R.id.my_friend_drawer) {
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.msg_drawer) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.setting_drawer) {
 
         } else if (id == R.id.count_set_drawer) {
             //个人中心

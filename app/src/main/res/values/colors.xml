@@ -8,6 +8,14 @@
     <color name="DarkBlue">#0288d1</color>
     <color name="MenuBlue">#039be5</color>
     <color name="Gray">#838383</color>
+    <color name="LightBlack">#605e5e</color>
     <color name="DarkGray">#b4b4b4</color>
     <color name="White">#e1f5f1</color>
+    <color name="Pink">#de9ba5</color>
+    <color name="DarkPink">#d17682</color>
+    <color name="Green">#60cb83</color>
+    <color name="DarkGreen">#3eb967</color>
+    <color name="LightRed">#ffff4444</color>
+    <color name="HeartRed">#eb4f38</color>
+
 </resources>

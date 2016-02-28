@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/pub_debate_drawer"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_send_black_24dp"
             android:title="发布辩题" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/my_friend_drawer"
+            android:icon="@drawable/ic_perm_contact_calendar_black_24dp"
+            android:title="我的辩友" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/msg_drawer"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="消息" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/setting_drawer"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="设置" />
     </group>
 
-    <item android:title="Settings">
+    <item android:title="settings">
         <menu>
             <item
                 android:id="@id/count_set_drawer"
