@@ -6,17 +6,17 @@ An platform for debate
 目前还在开发中
 ## 应用截图
 
-![登陆-动态改变头像](http://upload-images.jianshu.io/upload_images/1473110-ecbbfa59ecf475bb.gif?imageMogr2/auto-orient/strip)
+![](http://upload-images.jianshu.io/upload_images/1473110-ecbbfa59ecf475bb.gif?imageMogr2/auto-orient/strip)
 
-![关注与投票](http://upload-images.jianshu.io/upload_images/1473110-852f61095619e551.gif?imageMogr2/auto-orient/strip)
+![](http://upload-images.jianshu.io/upload_images/1473110-852f61095619e551.gif?imageMogr2/auto-orient/strip)
 
-![评论与点赞](http://upload-images.jianshu.io/upload_images/1473110-1ea7acc2c56f8c83.gif?imageMogr2/auto-orient/strip)
+![](http://upload-images.jianshu.io/upload_images/1473110-1ea7acc2c56f8c83.gif?imageMogr2/auto-orient/strip)
 
-![搜索辩题或用户](http://upload-images.jianshu.io/upload_images/1473110-4eaf493231d9c5f6.gif?imageMogr2/auto-orient/strip)
+![](http://upload-images.jianshu.io/upload_images/1473110-4eaf493231d9c5f6.gif?imageMogr2/auto-orient/strip)
 
-![发布讨论](http://upload-images.jianshu.io/upload_images/1473110-69c3c3fa4b296e86.gif?imageMogr2/auto-orient/strip)
+![](http://upload-images.jianshu.io/upload_images/1473110-69c3c3fa4b296e86.gif?imageMogr2/auto-orient/strip)
 
-![评论通知](http://upload-images.jianshu.io/upload_images/1473110-bb4bc0a00a788f53.gif?imageMogr2/auto-orient/strip)
+![](http://upload-images.jianshu.io/upload_images/1473110-bb4bc0a00a788f53.gif?imageMogr2/auto-orient/strip)
 ## License
  Copyright 2016 Joe Steven
 
