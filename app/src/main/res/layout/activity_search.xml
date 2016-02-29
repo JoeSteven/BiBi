@@ -63,6 +63,21 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
          />
+    <TextView
+        android:id="@+id/tv_not_found_search"
+        android:text="抱歉，没有找到相关辩题"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/LightBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:id="@+id/loading_search"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <com.joe.bibi.view.PullUpListView
         android:id="@+id/lv_search"
         android:paddingLeft="10dp"

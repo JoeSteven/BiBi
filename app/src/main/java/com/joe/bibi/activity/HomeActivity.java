@@ -36,6 +36,8 @@ import com.joe.bibi.utils.AvatarUtils;
 import com.joe.bibi.utils.ConsUtils;
 import com.joe.bibi.utils.PrefUtils;
 
+import org.xutils.x;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -117,73 +119,7 @@ public class HomeActivity extends AppCompatActivity
         //先检查本地缓存
         Log.d("BB","准备显示头像");
         mNickName.setText(mUser.getNick());
-        File avatar=new File(PrefUtils.getString(this,ConsUtils.AVATAR,""));
-        if(avatar.exists()){
-            //从本地读取头像
-            Bitmap bitmap= BitmapFactory.decodeFile(PrefUtils.getString(this, ConsUtils.AVATAR, ""));
-            mAvatar.setImageBitmap(bitmap);
-        }else{
-            Log.d("BB","从网上下载头像");
-            getAvatarFromCloud();
-        }
-    }
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.d("BB", "显示头像");
-            mAvatar.setImageBitmap((Bitmap) msg.obj);
-        }
-    };
-    //从云端下载数据
-    private void getAvatarFromCloud() {
-        BmobProFile bmobProFile= BmobProFile.getInstance(this);
-        bmobProFile.download(mUser.getAvatarName(), new DownloadListener() {
-            @Override
-            public void onSuccess(String fullpath) {
-                Log.d("BB","下载成功路径："+fullpath);
-                AvatarUtils utils=new AvatarUtils(HomeActivity.this);
-                File file=new File(utils.getmAvatarPath());
-                if (file.exists()){
-                    file.delete();
-                }
-                FileInputStream fis=null;
-                FileOutputStream fos=null;
-                try {
-                    file.createNewFile();
-                    fis=new FileInputStream(fullpath);
-                    fos=new FileOutputStream(file);
-                    byte[] buffer=new byte[1024];
-                    while (fis.read(buffer,0,buffer.length)!=-1){
-                        fos.write(buffer,0,buffer.length);
-                        Log.d("BB", "复制头像");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        fis.close();
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Bitmap bitmap=BitmapFactory.decodeFile(utils.getmAvatarPath());
-                Message msg=Message.obtain();
-                msg.obj=bitmap;
-                handler.sendMessage(msg);
-            }
-
-            @Override
-            public void onProgress(String s, int i) {
-                Log.d("BB","下载中："+i);
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Log.d("BB","下载失败："+i+";"+s);
-            }
-        });
+        x.image().bind(mAvatar,mUser.getAvatarUrl());
     }
 
 
@@ -228,6 +164,7 @@ public class HomeActivity extends AppCompatActivity
             Intent intent=new Intent(this,LoginActivity.class);
             intent.setAction(ConsUtils.LOGIN_OUT);
             startActivity(intent);
+            mUser.logOut(this);
             finish();
         }
 

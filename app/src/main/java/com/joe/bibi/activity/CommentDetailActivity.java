@@ -131,6 +131,7 @@ public class CommentDetailActivity extends AppCompatActivity {
     }
     //点赞
     public void likeIt(View v){
+        mLiked.setClickable(false);
         if(isLiked){
             cancelLike();
             return;
@@ -148,17 +149,19 @@ public class CommentDetailActivity extends AppCompatActivity {
                 PrefUtils.putBoolean(CommentDetailActivity.this,mComment.getObjectId(),true);
                 isLiked=true;
                 isClickLiked=true;
+                mLiked.setClickable(true);
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                mLiked.setClickable(true);
             }
         });
     }
 
     //取消点赞
     private void cancelLike() {
+        mLiked.setClickable(false);
         mLiked.setTextColor(getResources().getColor(R.color.LightBlack));
         int liked=Integer.parseInt(mLiked.getText().toString());
         liked--;
@@ -172,11 +175,12 @@ public class CommentDetailActivity extends AppCompatActivity {
                 PrefUtils.putBoolean(CommentDetailActivity.this,mComment.getObjectId(),false);
                 isLiked=false;
                 isClickLiked=true;
+                mLiked.setClickable(true);
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                mLiked.setClickable(true);
             }
         });
     }

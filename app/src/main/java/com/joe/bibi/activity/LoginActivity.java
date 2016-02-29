@@ -11,6 +11,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -29,14 +31,19 @@ import com.joe.bibi.utils.ConsUtils;
 import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
 
+import org.xutils.x;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import cn.bmob.im.BmobChat;
 import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.ResetPasswordByEmailListener;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -75,7 +82,44 @@ public class LoginActivity extends AppCompatActivity {
         if(!allFile.exists()){
             allFile.mkdir();
         }
-        Log.d("BB","初始化View完成-login");
+        Log.d("BB", "初始化View完成-login");
+        mUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("BB","注册on"+s.toString()+"-Sign");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            //动态查询用户的头像
+                if(s.toString().contains(".com")) queryBBuser(s.toString());
+            }
+        });
+    }
+
+    private void queryBBuser(String s) {
+        BmobQuery<BBUser> query=new BmobQuery<BBUser>();
+        query.addWhereEqualTo("username",s);
+        query.setCachePolicy(BmobQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.findObjects(this, new FindListener<BBUser>() {
+            @Override
+            public void onSuccess(List<BBUser> list) {
+                if(list.size()>0){
+                    x.image().bind(circularImageView,list.get(0).getAvatarUrl());
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
     }
 
     private void initData() {
@@ -83,15 +127,16 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("BB","初始化Data-login");
         bbUser = BmobUser.getCurrentUser(this, BBUser.class);
         if(bbUser==null) return;
+        x.image().bind(circularImageView,bbUser.getAvatarUrl());
         Log.d("BB","bbUser不为空-login");
-        File avatar=new File(PrefUtils.getString(this, ConsUtils.AVATAR, ""));
+       /* File avatar=new File(PrefUtils.getString(this, ConsUtils.AVATAR, ""));
         if(avatar.exists()){
             //从本地读取头像
             Bitmap bitmap= BitmapFactory.decodeFile(PrefUtils.getString(this,ConsUtils.AVATAR,""));
             circularImageView.setImageBitmap(bitmap);
         }else{
             getAvatarFromCloud();
-        }
+        }*/
         if(!PrefUtils.getString(this,ConsUtils.USER_NAME,"").equals("")){
             mUserName.setText(PrefUtils.getString(this, ConsUtils.USER_NAME, ""));
         }
@@ -100,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            circularImageView.setImageBitmap((Bitmap) msg.obj);
             if(msg.what==AUTO_LOGIN){
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 Log.d("BB", "启动Home-login");

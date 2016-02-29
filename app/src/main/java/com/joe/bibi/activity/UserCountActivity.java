@@ -19,6 +19,7 @@ import com.bmob.btp.callback.UploadListener;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.joe.bibi.R;
 import com.joe.bibi.domain.BBUser;
+import com.joe.bibi.domain.Comment;
 import com.joe.bibi.domain.Debate;
 import com.joe.bibi.utils.AvatarUtils;
 import com.joe.bibi.utils.ConsUtils;
@@ -143,6 +144,32 @@ public class UserCountActivity extends AppCompatActivity {
             newUser.setAvatarName(mAvatarName);
             newUser.setAvatarUrl(mAvatarUrl);
         }
+        BmobQuery<Comment> commentBmobQuery=new BmobQuery<Comment>();
+        commentBmobQuery.addWhereEqualTo("Nick",bbUser.getNick());
+        commentBmobQuery.findObjects(this, new FindListener<Comment>() {
+            @Override
+            public void onSuccess(List<Comment> list) {
+                for (Comment c:list) {
+                    c.setAvatar(mAvatarUrl);
+                    c.update(UserCountActivity.this, c.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
         BmobQuery<Debate> query=new BmobQuery<Debate>();
         query.addWhereEqualTo("publisher",bbUser.getUsername());
         query.findObjects(this, new FindListener<Debate>() {

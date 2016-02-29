@@ -87,14 +87,11 @@ public abstract class BasePager {
 
     public void initData(){
         if(isInitData==true) return;
+        Log.d("BB", "initData " + mCurrentPage + " BasePager");
         query.setLimit(mLimit);
         if(mTitle=="我的辩题") query.addWhereEqualTo("publisher", BmobUser.getCurrentUser(mActivity,BBUser.class).getUsername());
-        if(isRefreshing){
-            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        }else{
-            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_THEN_NETWORK);
-        }
-        final ArrayList<Debate> list = new ArrayList<Debate>();
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        //final ArrayList<Debate> list = new ArrayList<Debate>();
         query.order(mOrder);
 
         query.findObjects(mActivity, new FindListener<Debate>() {
@@ -103,6 +100,7 @@ public abstract class BasePager {
                 /*Message msg = Message.obtain();
                 msg.obj = list;
                 //handler.sendMessage(msg);*/
+                Log.d("BB","initData "+list.get(0).getObjectId()+" BasePager");
                 isInitData = true;
                 debates= list;
                 adapter = new myAdapter();
@@ -297,6 +295,7 @@ public abstract class BasePager {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
+            Log.d("BB","debates数量"+debates.size()+"BasePager");
             Debate debate=debates.get(position);
             if(convertView==null){
                 convertView=View.inflate(mActivity,R.layout.item_list_home,null);
@@ -312,6 +311,7 @@ public abstract class BasePager {
                 holder= (ViewHolder) convertView.getTag();
             }
             x.image().bind(holder.avatar, debate.getAvatar());
+            Log.d("BB","total "+debate.getTotal()+"BasePager");
             int change=debate.getTotal()/100;
             double total=change;
             if(total>9.0){

@@ -82,7 +82,7 @@ public class CommentActivity extends AppCompatActivity {
         builder.setSingleChoiceItems(item, 1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mPoint=which;
+                mPoint = which;
             }
         });
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -148,9 +148,28 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void pushComment() {
+        BmobQuery<BBUser> idQuery=new BmobQuery<BBUser>();
+        idQuery.addWhereEqualTo("username", mUserName);
+        idQuery.findObjects(this, new FindListener<BBUser>() {
+            @Override
+            public void onSuccess(List<BBUser> list) {
+                if (list.size() > 0) {
+                    setReceiverId(list.get(0).getInstallId());
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
+
+    }
+
+    private void setReceiverId(String installId) {
         //所有要接收通知的对象
         final List<String> receivers=new ArrayList<String>();
-        String installationId =BmobUser.getCurrentUser(this,BBUser.class).getInstallId();
+        String installationId =installId;
         receivers.add(installationId);
         BmobQuery<Follow> followBmobQuery=new BmobQuery<Follow>();
         followBmobQuery.addWhereEqualTo("debateId", comment.getBelongTo());
@@ -171,8 +190,8 @@ public class CommentActivity extends AppCompatActivity {
                 pushCommit(receivers);
             }
         });
-
     }
+
     //确认推送
     private void pushCommit(List<String> receivers) {
         BmobPushManager bmobPush = new BmobPushManager(CommentActivity.this);

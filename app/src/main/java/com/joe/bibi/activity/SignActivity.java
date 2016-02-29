@@ -26,9 +26,13 @@ import com.joe.bibi.utils.ConsUtils;
 import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
 
+import java.util.List;
+
 import cn.bmob.im.BmobUserManager;
 import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class SignActivity extends AppCompatActivity {
@@ -90,8 +94,8 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private void signUp() {
-        String mail=mMail.getText().toString();
-        String nick=mNick.getText().toString();
+        final String mail=mMail.getText().toString();
+        final String nick=mNick.getText().toString();
         //加密用户密码
         final String pass= mPass.getText().toString();
         if(mail.equals("")||nick.equals("")||pass.equals("")){
@@ -102,6 +106,27 @@ public class SignActivity extends AppCompatActivity {
             ToastUtils.make(this, "昵称长度不符合要求");
             return;
         }
+        BmobQuery<BBUser> query=new BmobQuery<BBUser>();
+        query.addWhereEqualTo("nick",nick);
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);
+        query.findObjects(this, new FindListener<BBUser>() {
+            @Override
+            public void onSuccess(List<BBUser> list) {
+                if(list.size()>0){
+                    ToastUtils.make(SignActivity.this, "昵称已被占用");
+                }else{
+                    doSign(mail,pass,nick);
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                doSign(mail,pass,nick);
+            }
+        });
+
+    }
+    private void doSign(String mail, String pass, String nick){
         final BBUser bbUser=new BBUser();
         if(mAvatar.equals("")){
             bbUser.setAvatar(ConsUtils.DEFAULT_AVATAR);
@@ -119,9 +144,7 @@ public class SignActivity extends AppCompatActivity {
         bbUser.setDeviceType("android");
         bbUser.setInstallId(BmobInstallation.getInstallationId(this));
         turnUI(true, bbUser);
-
     }
-
     //改变当前UI
     private void turnUI(boolean signing, final BBUser bbUser) {
         if(signing){

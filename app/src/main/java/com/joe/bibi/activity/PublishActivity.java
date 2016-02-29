@@ -61,16 +61,16 @@ public class PublishActivity extends BaseActivity {
     private void publishDebate() {
         Debate debate=new Debate();
         BBUser publisher= BmobUser.getCurrentUser(this,BBUser.class);
-        debate.setTitle(mTitle.getText().toString().replace(" ",""));
+        debate.setTitle(mTitle.getText().toString().replace(" ", ""));
         debate.setDesc(mDesc.getText().toString());
-        debate.setPositiveop(mPositive.getText().toString().replace(" ",""));
-        debate.setNegativeop(mNegative.getText().toString().replace(" ",""));
+        debate.setPositiveop(mPositive.getText().toString().replace(" ", ""));
+        debate.setNegativeop(mNegative.getText().toString().replace(" ", ""));
         debate.setPositive(0);
         debate.setNegative(0);
-        debate.setPublisher(publisher.getUsername());
-        debate.setAvatar(publisher.getAvatarUrl());
         debate.setTotal(0);
         debate.setComment(0);
+        debate.setPublisher(publisher.getUsername());
+        debate.setAvatar(publisher.getAvatarUrl());
         debate.save(this, new SaveListener() {
             @Override
             public void onSuccess() {

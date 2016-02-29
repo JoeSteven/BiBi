@@ -96,8 +96,8 @@ public class Debate extends BmobObject implements Serializable{
         return total;
     }
 
-    public void setTotal(int total) {
-        total = total;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public String getImage() {
