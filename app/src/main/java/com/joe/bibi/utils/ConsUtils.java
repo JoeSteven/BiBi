@@ -5,7 +5,7 @@ package com.joe.bibi.utils;
  */
 public class ConsUtils {
     //应用ID
-    public static String APPLICATION_ID="658fe6017b411d8a8cd7730b6873338f";
+    public static String APPLICATION_ID="secret";
     //默认头像标识
     public static String DEFAULT_AVATAR="default";
     //广播注册成功
