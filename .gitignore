@@ -6,3 +6,5 @@
 .DS_Store
 /build
 /captures
+/xxxx.txt
+/app/src/main/java/com/joe/bibi/utils/ConsUtils.java
