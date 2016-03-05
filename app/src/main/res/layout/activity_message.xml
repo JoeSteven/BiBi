@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/white"
+    tools:context="com.joe.bibi.activity.MessageActivity">
+    <LinearLayout
+        android:background="@android:color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="15dp"
+            android:gravity="center"
+            android:id="@+id/tv_chat_message"
+            android:onClick="showChat"
+            android:text="私信"
+            android:textSize="16sp"
+            android:textColor="@color/MainBlue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            style="@style/Divider"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:padding="15dp"
+            android:id="@+id/tv_add_message"
+            android:onClick="showAdd"
+            android:textSize="16sp"
+            android:text="好友请求"
+            android:gravity="center"
+            android:textColor="@color/LightBlack"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        style="@style/Divider"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <ListView
+        android:scrollbars="none"
+        android:fastScrollEnabled="false"
+        android:id="@+id/lv_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

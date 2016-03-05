@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group android:checkableBehavior="single">
+    <group >
         <item
+            android:checkable="true"
             android:id="@+id/pub_debate_drawer"
             android:icon="@drawable/ic_send_black_24dp"
             android:title="发布辩题" />
         <item
+            android:checkable="true"
             android:id="@+id/my_friend_drawer"
             android:icon="@drawable/ic_perm_contact_calendar_black_24dp"
-            android:title="我的辩友" />
+            android:title="我的知己" />
         <item
+            app:actionLayout="@layout/badge_nav_menu"
+            android:checkable="true"
             android:id="@+id/msg_drawer"
             android:icon="@drawable/ic_message_black_24dp"
             android:title="消息" />
         <item
+            android:checkable="true"
             android:id="@+id/setting_drawer"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="设置" />
@@ -23,10 +29,12 @@
     <item android:title="settings">
         <menu>
             <item
+                android:checkable="true"
                 android:id="@id/count_set_drawer"
                 android:icon="@drawable/ic_account_circle_black_24dp"
                 android:title="个人中心" />
             <item
+                android:checkable="true"
                 android:id="@id/exit_count_drawer"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="退出登陆" />

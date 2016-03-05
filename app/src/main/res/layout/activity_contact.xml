@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <SearchView
+        android:focusable="false"
+        android:queryHint="输入昵称"
+        android:id="@+id/search_contacts"
+        android:imeOptions="actionSearch"
+        android:iconifiedByDefault="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/lv_contact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             />
+
+        <com.joe.bibi.view.SideBar
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/sb_contact"
+            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</LinearLayout>

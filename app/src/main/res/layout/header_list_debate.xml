@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:elevation="4dp"
+    android:layout_marginBottom="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <LinearLayout
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -52,68 +54,71 @@
             android:textColor="@color/LightBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@id/tv_positive_debate"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_red_light"
+            android:padding="5dp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:progress="50"
+            android:id="@id/pro_positive_debate"
+            android:progressDrawable="@drawable/progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="15dp" />
+        <TextView
+            android:id="@id/tv_positivenum_debate"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_red_light"
+            android:padding="5dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@id/tv_positive_debate"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_red_light"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-            <ProgressBar
-                android:id="@id/pro_positive_debate"
-                android:progressTint="@android:color/holo_red_light"
-                android:progressBackgroundTint="@android:color/white"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:padding="5dp"
-                android:layout_width="240dp"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@id/tv_positivenum_debate"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_red_light"
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@id/tv_negative_debate"
+            android:textSize="16sp"
+            android:textColor="@color/MainBlue"
+            android:padding="5dp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:progress="90"
+            android:id="@id/pro_negative_debate"
+            android:progressDrawable="@drawable/progress_blue"
+            android:padding="5dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="15dp" />
+        <TextView
+            android:text="9%"
+            android:id="@id/tv_negativenum_debate"
+            android:textSize="16sp"
+            android:textColor="@color/MainBlue"
+            android:padding="5dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@id/tv_negative_debate"
-                android:textSize="16sp"
-                android:textColor="@color/MainBlue"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-            <ProgressBar
-                android:id="@id/pro_negative_debate"
-                android:progressTint="@color/MainBlue"
-                android:padding="5dp"
-                android:progressBackgroundTint="@android:color/white"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="240dp"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@id/tv_negativenum_debate"
-                android:textSize="16sp"
-                android:textColor="@color/MainBlue"
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:layout_width="40dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
         <TextView
             android:gravity="center"
             android:padding="11dp"
@@ -155,8 +160,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <TextView
+        <!--<TextView
             android:background="@color/White"
             android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:layout_height="15dp" />-->
 </LinearLayout>

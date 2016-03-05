@@ -132,7 +132,7 @@ public class SignActivity extends AppCompatActivity {
             bbUser.setAvatar(ConsUtils.DEFAULT_AVATAR);
             bbUser.setAvatarUrl("");
         }else{
-            bbUser.setAvatar(mAvatar);
+            bbUser.setAvatar(AvatarUrl);
             bbUser.setAvatarUrl(AvatarUrl);
         }
         //邮箱地址作为用户名

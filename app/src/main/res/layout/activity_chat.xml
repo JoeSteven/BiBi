@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.joe.bibi.activity.ChatActivity">
+    <LinearLayout
+        android:background="@drawable/base_comment_emo_bar"
+        android:id="@+id/ll_content_chat"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:onClick="changeInPut"
+            android:id="@+id/iv_speak_chat"
+            android:padding="2dp"
+            android:background="@drawable/btn_chat_voice_selector"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <EditText
+            android:id="@+id/et_keyBoard_chat"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxHeight="100dp"
+            android:background="@drawable/shape_edit_chat"
+            android:layout_height="wrap_content" />
+        <Button
+            android:visibility="gone"
+            android:id="@+id/bt_speak_chat"
+            android:layout_marginBottom="1dp"
+            android:text="按住 说话"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@drawable/selector_button_blue"
+            android:layout_height="40dp" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_pic_chat"
+            android:layout_marginRight="5dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_pic_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:onClick="sendTextMessage"
+            android:id="@+id/iv_send_chat"
+            android:padding="2dp"
+            android:background="@drawable/btn_chat_send_selector"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh_chat"
+        android:layout_above="@id/ll_content_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/lv_chat"
+            android:divider="@null"
+            android:fastScrollEnabled="false"
+            android:scrollbars="none"
+            android:dividerHeight="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_record"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:background="@drawable/chat_top_voice_bg"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/iv_record"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/action_settings"
+            android:src="@drawable/chat_icon_voice1" />
+
+        <TextView
+            android:id="@+id/tv_voice_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_record"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="手指上滑,取消发送"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>

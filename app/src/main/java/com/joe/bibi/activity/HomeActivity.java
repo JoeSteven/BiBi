@@ -6,15 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.PersistableBundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,23 +19,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bmob.BmobProFile;
-import com.bmob.btp.callback.DownloadListener;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.joe.bibi.R;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.fragment.HomeFragment;
-import com.joe.bibi.utils.AvatarUtils;
 import com.joe.bibi.utils.ConsUtils;
-import com.joe.bibi.utils.PrefUtils;
+import com.joe.bibi.utils.ToastUtils;
 
 import org.xutils.x;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
+import cn.bmob.im.db.BmobDB;
 import cn.bmob.v3.BmobUser;
 
 /*
@@ -59,6 +45,7 @@ public class HomeActivity extends AppCompatActivity
     private BBUser mUser;
     private NavigationView navigationView;
     private NoUpdateReceiver receiver;
+    private TextView mUnreadTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +69,7 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mUnreadTip = (TextView) navigationView.getMenu().findItem(R.id.msg_drawer).getActionView().findViewById(R.id.nav_message);
         initFragment();
         initChildView();
     }
@@ -90,7 +78,7 @@ public class HomeActivity extends AppCompatActivity
         HomeFragment homeFragment=new HomeFragment();
         FragmentManager fm=getFragmentManager();
         FragmentTransaction ft=fm.beginTransaction();
-        ft.replace(R.id.fl_frag_home,homeFragment);
+        ft.replace(R.id.fl_frag_home, homeFragment);
         ft.commit();
     }
 
@@ -101,18 +89,40 @@ public class HomeActivity extends AppCompatActivity
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomeActivity.this,UserActivity.class);
-                intent.putExtra("user", BmobUser.getCurrentUser(HomeActivity.this,BBUser.class));
+                Intent intent = new Intent(HomeActivity.this, UserActivity.class);
+                intent.putExtra("user", BmobUser.getCurrentUser(HomeActivity.this, BBUser.class));
                 startActivity(intent);
             }
         });
+
     }
 
     private void initData() {
         initReceiver();
+        initUnread();
         mUser = BBUser.getCurrentUser(this, BBUser.class);
         //设置用户名和头像
         showAvatarAndNick();
+    }
+
+    //展示未读提示
+    private void initUnread() {
+        int unread=BmobDB.create(this).getAllUnReadCount();
+        if(unread<=0){
+            mUnreadTip.setVisibility(View.INVISIBLE);
+            return;
+        }else if(unread>99){
+            mUnreadTip.setText("99+");
+        }else{
+            mUnreadTip.setText(unread+"");
+        }
+        mUnreadTip.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initUnread();
     }
 
     private void showAvatarAndNick() {
@@ -147,15 +157,16 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.pub_debate_drawer) {
             startActivity(new Intent(this,PublishActivity.class));
         } else if (id == R.id.my_friend_drawer) {
-
+            startActivity(new Intent(this,ContactActivity.class));
         } else if (id == R.id.msg_drawer) {
-
+            Intent intent=new Intent(this,MessageActivity.class);
+            intent.putExtra("isshowchat",true);
+            startActivity(intent);
         } else if (id == R.id.setting_drawer) {
-
+            startActivity(new Intent(this,SettingActivity.class));
         } else if (id == R.id.count_set_drawer) {
             //个人中心
             openUserCount();
@@ -207,10 +218,15 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (firstTime + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+            } else {
+                ToastUtils.make(this,"再按一次退出程序");
+            }
+            firstTime = System.currentTimeMillis();
         }
     }
-
+    private static long firstTime;
     @Override
     protected void onDestroy() {
         super.onDestroy();

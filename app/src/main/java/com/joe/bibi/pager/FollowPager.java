@@ -81,8 +81,13 @@ public class FollowPager extends BasePager {
             public void onSuccess(List<Debate> list) {
                 isInitData = true;
                 debates= list;
-                adapter = new myAdapter();
-                mListView.setAdapter(adapter);
+                if(debates.size()==0){
+                    mNullHint.setText("当前没有关注辩题哦");
+                    mNullHint.setVisibility(View.VISIBLE);
+                }else{
+                    adapter = new myAdapter();
+                    mListView.setAdapter(adapter);
+                }
                 initListener();
                 mRefresh.setRefreshing(false);
                 mLoading.setVisibility(View.GONE);

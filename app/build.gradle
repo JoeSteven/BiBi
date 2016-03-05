@@ -32,4 +32,6 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
+    compile 'com.kyleduo.switchbutton:library:1.3.4'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.1.5'
 }

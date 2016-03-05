@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context="com.joe.bibi.activity.SettingActivity">
+    <com.joe.bibi.view.SettingView
+        android:id="@+id/sv_comment_setting"
+        app:setTitle="新评论提醒"
+        app:setDesc="关闭后,您将不再收到新的辩题评论提醒（您发布的辩题或者是您关注的辩题）"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.joe.bibi.view.SettingView
+        android:id="@+id/sv_msg_setting"
+        app:setTitle="新消息提醒"
+        app:setDesc="关闭后，您将不再收到新消息提醒（私信，好友请求）"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.joe.bibi.view.SettingView
+        android:id="@+id/sv_voice_setting"
+        app:setTitle="通知声音"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.joe.bibi.view.SettingView
+        android:id="@+id/sv_vibrate_setting"
+        app:setTitle="通知震动"
+        app:setDesc="开启或关闭通知消息的声音和震动提醒"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

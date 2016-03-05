@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
@@ -16,6 +17,7 @@ import com.github.siyamed.shapeimageview.CircularImageView;
 import com.joe.bibi.R;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.domain.Debate;
+import com.joe.bibi.utils.CommonUtils;
 import com.joe.bibi.view.PullUpListView;
 
 import org.xutils.x;
@@ -75,12 +77,23 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() > 1) {
+                if (newText.length() >= 1) {
                     mCurrentPage=0;
                     noMoreData=false;
                     search(newText, false);
                 }
                 return false;
+            }
+        });
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                CommonUtils.hideKeyBoard(SearchActivity.this);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -60,6 +60,7 @@ public abstract class BasePager {
     protected boolean isRefreshing;
     protected int mLimit=20;
     protected boolean mNoMoreData;
+    protected TextView mNullHint;
 
     public BasePager(Activity mActivity) {
         super();
@@ -78,6 +79,7 @@ public abstract class BasePager {
         mListView = (PullUpListView) mRootView.findViewById(R.id.list_viewpager_home);
         mRefresh = (PullRefreshLayout)mRootView.findViewById(R.id.swipeRefreshLayout);
         mRefresh.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        mNullHint = (TextView) mRootView.findViewById(R.id.tv_null_base);
         mLoading = (ProgressBar) mRootView.findViewById(R.id.loading_pager);
         container = (CoordinatorLayout) mActivity.findViewById(R.id.coorl_home);
         mCurrentPage=0;
@@ -87,24 +89,34 @@ public abstract class BasePager {
 
     public void initData(){
         if(isInitData==true) return;
+
         Log.d("BB", "initData " + mCurrentPage + " BasePager");
+        mCurrentPage=0;
         query.setLimit(mLimit);
         if(mTitle=="我的辩题") query.addWhereEqualTo("publisher", BmobUser.getCurrentUser(mActivity,BBUser.class).getUsername());
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
         //final ArrayList<Debate> list = new ArrayList<Debate>();
         query.order(mOrder);
-
+        query.setSkip(mCurrentPage*mLimit);
         query.findObjects(mActivity, new FindListener<Debate>() {
             @Override
             public void onSuccess(List<Debate> list) {
                 /*Message msg = Message.obtain();
                 msg.obj = list;
                 //handler.sendMessage(msg);*/
-                Log.d("BB","initData "+list.get(0).getObjectId()+" BasePager");
                 isInitData = true;
                 debates= list;
-                adapter = new myAdapter();
-                mListView.setAdapter(adapter);
+                if(debates.size()==0){
+                   if(mTitle.equals("我的辩题")){
+                        mNullHint.setText("你还没有发布过辩题哦");
+                    }else{
+                        mNullHint.setText("糟糕！网络开小差了");
+                    }
+                    mNullHint.setVisibility(View.VISIBLE);
+                }else{
+                    adapter = new myAdapter();
+                    mListView.setAdapter(adapter);
+                }
                 initListener();
                 mRefresh.setRefreshing(false);
                 mLoading.setVisibility(View.GONE);
@@ -130,40 +142,6 @@ public abstract class BasePager {
 
 
     }
-   /* Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.d("BB", msg.what + "信息-BasePager");
-            if(msg.what==1){
-                mCurrentPage--;
-                Snackbar.make(container,"加载数据失败，请检查下网络",Snackbar.LENGTH_SHORT).show();
-            }else if(msg.what==REFRESH_DONE){
-                Log.d("BB", "刷新数据-BasePager");
-                adapter.notifyDataSetChanged();
-                isLoadingMore=false;
-            }else if(msg.what==NO_MORE_DATA){
-                if(isLoadingMore){
-                    //当前页面变为之前一样
-                    mCurrentPage--;
-                }
-                Snackbar.make(container,"没有更多数据咯~",Snackbar.LENGTH_SHORT).show();
-            }
-            else{
-
-                debates= (ArrayList<Debate>) msg.obj;
-                adapter = new myAdapter();
-                mListView.setAdapter(adapter);
-                initListener();
-            }
-            mRefresh.setRefreshing(false);
-            mLoading.setVisibility(View.GONE);
-            isLoadingMore=false;
-            if(mListView.isLoadingMore){
-                mListView.LoadingDone();
-            }
-        }
-    };*/
 
     protected void initListener(){
         mListView.setOnRefreshListener(new PullUpListView.OnRefreshListener() {
@@ -181,6 +159,7 @@ public abstract class BasePager {
                 Intent intent = new Intent(mActivity, DebateActivity.class);
                 Debate debate = (Debate) mListView.getAdapter().getItem(position);
                 //将该条目的Debate对象传递给显示页面
+                Log.d("BB","加载更多-BasePager");
                 intent.putExtra("debate",debate);
                 mActivity.startActivity(intent);
             }
@@ -188,6 +167,7 @@ public abstract class BasePager {
         mRefresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mNullHint.setVisibility(View.GONE);
                 new Thread(){
                     @Override
                     public void run() {
@@ -204,6 +184,7 @@ public abstract class BasePager {
         query.order(mOrder);
         if(isLoadingMore){
             if(debates.size()<mLimit||mNoMoreData){
+                mCurrentPage--;
                 mListView.LoadingDone();
                 isLoadingMore=false;
                 return;
@@ -295,7 +276,6 @@ public abstract class BasePager {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
-            Log.d("BB","debates数量"+debates.size()+"BasePager");
             Debate debate=debates.get(position);
             if(convertView==null){
                 convertView=View.inflate(mActivity,R.layout.item_list_home,null);
@@ -311,20 +291,22 @@ public abstract class BasePager {
                 holder= (ViewHolder) convertView.getTag();
             }
             x.image().bind(holder.avatar, debate.getAvatar());
-            Log.d("BB","total "+debate.getTotal()+"BasePager");
             int change=debate.getTotal()/100;
             double total=change;
             if(total>9.0){
                 total=total/10.0;
-                holder.total.setText("热度 "+total+"K");
+                holder.total.setText("热度 " + total + "K");
             }else{
                 holder.total.setText("热度 "+debate.getTotal());
             }
             holder.title.setText(debate.getTitle());
 
-            holder.desc.setText(debate.getDesc());
-            if(debate.getDesc()==null){
+
+            if(TextUtils.isEmpty(debate.getDesc())){
                 holder.desc.setVisibility(View.GONE);
+            }else{
+                holder.desc.setText(debate.getDesc());
+                holder.desc.setVisibility(View.VISIBLE);
             }
             int positive=0;
             int negative=0;

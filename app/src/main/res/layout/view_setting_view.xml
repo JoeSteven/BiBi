@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_title_setting"
+            android:layout_marginLeft="20dp"
+            android:text="新评论通知"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <com.kyleduo.switchbutton.SwitchButton
+            app:kswTintColor="@color/MainBlue"
+            android:id="@+id/switch_setting"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_desc_setting"
+        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="关闭后，您将不再收到新的评论提醒（您发布的辩题，或是关注的辩题）"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

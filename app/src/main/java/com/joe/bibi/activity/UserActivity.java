@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.joe.bibi.R;
+import com.joe.bibi.application.BBApplication;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.domain.Comment;
+import com.joe.bibi.utils.ToastUtils;
 import com.joe.bibi.view.PullUpListView;
 
 import org.xutils.x;
@@ -21,8 +25,14 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.im.BmobChatManager;
+import cn.bmob.im.BmobUserManager;
+import cn.bmob.im.bean.BmobChatUser;
+import cn.bmob.im.config.BmobConfig;
+import cn.bmob.im.db.BmobDB;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.PushListener;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -38,6 +48,8 @@ public class UserActivity extends AppCompatActivity {
     private BmobQuery<Comment> comQuery;
     private int mCurrentPage=0;
     private myAdapter mAdapter;
+    private ImageView mAddFriend;
+    private ImageView mSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +58,17 @@ public class UserActivity extends AppCompatActivity {
         mUser = (BBUser) getIntent().getSerializableExtra("user");
         mUserName = getIntent().getStringExtra("username");
         initView();
-
+        if(TextUtils.isEmpty(mUserName)) mUserName=mUser.getUsername();
+        if(mUserName.equals(BBUser.getCurrentUser(this,BBUser.class).getUsername())){
+            mAddFriend.setVisibility(View.GONE);
+            mSend.setVisibility(View.GONE);
+        }else{
+            for(BmobChatUser user: BBApplication.getInstance().getContactList()){
+                if(!TextUtils.isEmpty(mUserName)&&mUserName.equals(user.getUsername())){
+                    mAddFriend.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
     private void initView() {
@@ -54,6 +76,8 @@ public class UserActivity extends AppCompatActivity {
         mNick = (TextView) findViewById(R.id.tv_nick_user);
         mDesc = (TextView) findViewById(R.id.tv_desc_user);
         mListComments = (PullUpListView) findViewById(R.id.list_comment_user);
+        mAddFriend = (ImageView) findViewById(R.id.iv_add_user);
+        mSend = (ImageView) findViewById(R.id.iv_send_user);
         mNoCom = (TextView) findViewById(R.id.tv_nocom_user);
         if(mUser==null){
             queryUser();
@@ -204,13 +228,16 @@ public class UserActivity extends AppCompatActivity {
 
             switch (comment.getPoint()){
                 case Comment.POSITIVE_COMMENT:
-                    holder.like.setBackground(getDrawable(R.drawable.shape_text_red));
+                    //holder.like.setBackground(getDrawable(R.drawable.shape_text_red));
+                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
                     break;
                 case Comment.NEUTRAL_COMMENT:
-                    holder.like.setBackground(getDrawable(R.drawable.shape_text_gray));
+                    //holder.like.setBackground(getDrawable(R.drawable.shape_text_gray));
+                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
                     break;
                 case Comment.NEGATIVE_COMMENT:
-                    holder.like.setBackground(getDrawable(R.drawable.shape_text_blue));
+                    // holder.like.setBackground(getDrawable(R.drawable.shape_text_blue));
+                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
                     break;
 
             }
@@ -226,7 +253,7 @@ public class UserActivity extends AppCompatActivity {
     private void queryUser() {
         BmobQuery<BBUser> query=new BmobQuery<BBUser>();
         query.addWhereEqualTo("username",mUserName);
-        query.setCachePolicy(BmobQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.findObjects(this, new FindListener<BBUser>() {
             @Override
             public void onSuccess(List<BBUser> list) {
@@ -249,5 +276,26 @@ public class UserActivity extends AppCompatActivity {
             }
         });
     }
+    public void sendMessage(View v){
+        Intent intent=new Intent(this,ChatActivity.class);
+        intent.putExtra("user",mUser);
+        startActivity(intent);
+    }
+    public void addFriend(View v){
+        mAddFriend.setClickable(false);
+        Log.e("BB", "接收人ID" + mUser.getObjectId());
+        BmobChatManager.getInstance(this).sendTagMessage(BmobConfig.TAG_ADD_CONTACT, mUser.getObjectId(), new PushListener() {
+            @Override
+            public void onSuccess() {
+                ToastUtils.make(UserActivity.this, "发送请求成功，等待对方回应");
+                mAddFriend.setClickable(true);
+            }
 
+            @Override
+            public void onFailure(int i, String s) {
+                mAddFriend.setClickable(true);
+                ToastUtils.make(UserActivity.this, "发送请求失败，请重试");
+            }
+        });
+    }
 }

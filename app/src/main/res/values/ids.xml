@@ -80,4 +80,10 @@
     <item type="id" name="iv_avatar_user"/>
     <item type="id" name="tv_nick_user"/>
     <item type="id" name="tv_desc_user"/>
+    <item type="id" name="iv_add_user"/>
+    <item type="id" name="iv_send_user"/>
+
+    <!-- ChatActivity-->
+    <item type="id" name="type_of_convert"/>
+    <item type="id" name="holder_of_convert"/>
 </resources>

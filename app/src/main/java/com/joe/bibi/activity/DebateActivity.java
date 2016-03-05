@@ -177,7 +177,7 @@ public class DebateActivity extends AppCompatActivity {
         //标题栏初始化
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("有" + mDebate.getTotal() + "人参与话题讨论");
+        ab.setTitle("有" + mDebate.getTotal() + "人参与话题投票");
         mListComment = (PullUpListView) findViewById(R.id.list_comment_debate);
         mHeader = View.inflate(this, R.layout.header_list_debate, null);
         initHeader();
@@ -381,13 +381,16 @@ public class DebateActivity extends AppCompatActivity {
 
             switch (comment.getPoint()){
                 case Comment.POSITIVE_COMMENT:
-                    holder.like.setBackground(getDrawable(R.drawable.shape_text_red));
+                    //holder.like.setBackground(getDrawable(R.drawable.shape_text_red));
+                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
                     break;
                 case Comment.NEUTRAL_COMMENT:
-                    holder.like.setBackground(getDrawable(R.drawable.shape_text_gray));
+                    //holder.like.setBackground(getDrawable(R.drawable.shape_text_gray));
+                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
                     break;
                 case Comment.NEGATIVE_COMMENT:
-                    holder.like.setBackground(getDrawable(R.drawable.shape_text_blue));
+                   // holder.like.setBackground(getDrawable(R.drawable.shape_text_blue));
+                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
                     break;
 
             }

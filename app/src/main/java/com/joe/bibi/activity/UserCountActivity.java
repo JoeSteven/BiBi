@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +22,13 @@ import com.joe.bibi.R;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.domain.Comment;
 import com.joe.bibi.domain.Debate;
+import com.joe.bibi.service.UpdateService;
 import com.joe.bibi.utils.AvatarUtils;
 import com.joe.bibi.utils.ConsUtils;
 import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
+
+import org.xutils.x;
 
 import java.io.File;
 import java.util.List;
@@ -73,8 +77,12 @@ public class UserCountActivity extends AppCompatActivity {
         isUpdateAvatar=false;
         isUpdateSure=false;
         mAvatarPath ="";
-        mAvatar.setImageBitmap(BitmapFactory.decodeFile(PrefUtils.getString(this, ConsUtils.AVATAR, "")));
         bbUser = BBUser.getCurrentUser(this, BBUser.class);
+        if(TextUtils.isEmpty(bbUser.getAvatarUrl())){
+            mAvatar.setImageResource(R.mipmap.icon_userpic_default);
+        }else{
+            x.image().bind(mAvatar,bbUser.getAvatarUrl());
+        }
         mNick.setText(bbUser.getNick());
         if(bbUser.getTag()!=null){
             mTag.setText(bbUser.getTag());
@@ -140,63 +148,16 @@ public class UserCountActivity extends AppCompatActivity {
         Debate debate=new Debate();
         BBUser newUser = new BBUser();
         if(!mAvatarPath.equals("")){
-            newUser.setAvatar(mAvatarPath);
+            newUser.setAvatar(mAvatarUrl);
             newUser.setAvatarName(mAvatarName);
             newUser.setAvatarUrl(mAvatarUrl);
         }
-        BmobQuery<Comment> commentBmobQuery=new BmobQuery<Comment>();
-        commentBmobQuery.addWhereEqualTo("Nick",bbUser.getNick());
-        commentBmobQuery.findObjects(this, new FindListener<Comment>() {
-            @Override
-            public void onSuccess(List<Comment> list) {
-                for (Comment c:list) {
-                    c.setAvatar(mAvatarUrl);
-                    c.update(UserCountActivity.this, c.getObjectId(), new UpdateListener() {
-                        @Override
-                        public void onSuccess() {
+        Intent intent1=new Intent(this,UpdateService.class);
+        intent1.putExtra("Nick",bbUser.getNick());
+        intent1.putExtra("publisher", bbUser.getUsername());
+        intent1.putExtra("AvatarUrl", mAvatarUrl);
+        startService(intent1);
 
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-            }
-        });
-        BmobQuery<Debate> query=new BmobQuery<Debate>();
-        query.addWhereEqualTo("publisher",bbUser.getUsername());
-        query.findObjects(this, new FindListener<Debate>() {
-            @Override
-            public void onSuccess(List<Debate> list) {
-                for (Debate debate:list
-                     ) {
-                    debate.setAvatar(mAvatarUrl);
-                    debate.update(UserCountActivity.this, debate.getObjectId(), new UpdateListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-            }
-        });
         newUser.setTag(mTag.getText().toString());
         newUser.setDesc(mDesc.getText().toString());
         newUser.update(this, bbUser.getObjectId(), new UpdateListener() {

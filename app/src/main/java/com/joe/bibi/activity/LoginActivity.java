@@ -64,11 +64,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initBmob();
-        Log.d("BB","登陆页面-login");
+        isFirstTimeLogin();
         initView();
         initData();
         autoLogin();
         initReceiver();
+    }
+
+    private void isFirstTimeLogin() {
+        //如果是第一次登陆
+        if(PrefUtils.getBoolean(this,ConsUtils.IS_FIRST_TIME,true)){
+
+        }
     }
 
     private void initView() {
@@ -91,21 +98,21 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("BB","注册on"+s.toString()+"-Sign");
+                Log.d("BB", "注册on" + s.toString() + "-Sign");
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-            //动态查询用户的头像
-                if(s.toString().contains(".com")) queryBBuser(s.toString());
+                //动态查询用户的头像
+                if (s.toString().contains(".com")) queryBBuser(s.toString());
             }
         });
     }
 
     private void queryBBuser(String s) {
         BmobQuery<BBUser> query=new BmobQuery<BBUser>();
-        query.addWhereEqualTo("username",s);
+        query.addWhereEqualTo("username", s);
         query.setCachePolicy(BmobQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findObjects(this, new FindListener<BBUser>() {
             @Override
@@ -272,8 +279,8 @@ public class LoginActivity extends AppCompatActivity {
         bbUser.login(this, new SaveListener() {
             @Override
             public void onSuccess() {
-                if(isHand){
-                    PrefUtils.putString(LoginActivity.this,ConsUtils.USER_NAME,bbUser.getUsername());
+                if (isHand) {
+                    PrefUtils.putString(LoginActivity.this, ConsUtils.USER_NAME, bbUser.getUsername());
                 }
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 finish();
