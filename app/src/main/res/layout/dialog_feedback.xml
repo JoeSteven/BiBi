@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:gravity="start"
+            android:id="@+id/et_phone_feedback"
+            android:hint="您的手机品牌及型号"
+            android:padding="5dp"
+            android:background="@drawable/shape_edit_gray"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:gravity="start"
+            android:id="@+id/et_system_feedback"
+            android:layout_marginLeft="10dp"
+            android:hint="系统版本（如4.4.2）"
+            android:padding="5dp"
+            android:background="@drawable/shape_edit_gray"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <EditText
+        android:id="@+id/et_content_feedback"
+        android:layout_marginTop="10dp"
+        android:gravity="start"
+        android:hint="问题描述"
+        android:padding="5dp"
+        android:background="@drawable/shape_edit_gray"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+</LinearLayout>

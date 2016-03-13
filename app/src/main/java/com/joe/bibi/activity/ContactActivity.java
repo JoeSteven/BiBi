@@ -26,6 +26,7 @@ import com.joe.bibi.domain.Contacts;
 import com.joe.bibi.utils.CharacterParser;
 import com.joe.bibi.utils.CommonUtils;
 import com.joe.bibi.utils.PinyinComparator;
+import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
 import com.joe.bibi.view.SideBar;
 
@@ -262,6 +263,7 @@ public class ContactActivity extends AppCompatActivity {
                 holder.indicator.setVisibility(View.GONE);
             }
             x.image().bind(holder.avatar,contact.getAvatar());
+
             holder.name.setText(contact.getName());
             return v;
         }

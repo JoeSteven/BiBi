@@ -78,11 +78,7 @@ public class UserCountActivity extends AppCompatActivity {
         isUpdateSure=false;
         mAvatarPath ="";
         bbUser = BBUser.getCurrentUser(this, BBUser.class);
-        if(TextUtils.isEmpty(bbUser.getAvatarUrl())){
-            mAvatar.setImageResource(R.mipmap.icon_userpic_default);
-        }else{
-            x.image().bind(mAvatar,bbUser.getAvatarUrl());
-        }
+        x.image().bind(mAvatar,bbUser.getAvatarUrl());
         mNick.setText(bbUser.getNick());
         if(bbUser.getTag()!=null){
             mTag.setText(bbUser.getTag());

@@ -26,7 +26,7 @@
             android:title="设置" />
     </group>
 
-    <item android:title="settings">
+    <item android:title="系统">
         <menu>
             <item
                 android:checkable="true"
@@ -38,6 +38,16 @@
                 android:id="@id/exit_count_drawer"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="退出登陆" />
+            <item
+                android:checkable="true"
+                android:id="@id/update_count_drawer"
+                android:icon="@drawable/ic_backup_black_24dp"
+                android:title="检查更新" />
+            <item
+                android:checkable="true"
+                android:id="@id/about_count_drawer"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="关于" />
         </menu>
     </item>
 

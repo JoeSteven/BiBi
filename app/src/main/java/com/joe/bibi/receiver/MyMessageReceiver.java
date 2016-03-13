@@ -52,8 +52,7 @@ public class MyMessageReceiver extends BroadcastReceiver {
         if(intent.getAction().equals("cn.bmob.push.action.MESSAGE")){
             Log.d("BB", "客户端收到推送内容：" + intent.getStringExtra("msg"));
             String json=intent.getStringExtra("msg");
-            String msg=parseData(json);
-            if(!TextUtils.isEmpty(msg)){
+            if(json.contains("comment&bibi&621")){
             }else{
                 //其他消息
                 parseMessage(json);

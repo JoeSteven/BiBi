@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,10 +60,6 @@ public class CommentDetailActivity extends AppCompatActivity {
             finish();
             return true;
         }
-        if(item.getItemId()==android.R.id.title){
-            ToastUtils.make(this,"点击标题");
-            return true;
-        }
         if(item.getItemId()==R.id.action_done){
             Debate debate=new Debate();
             debate.setObjectId(mComment.getBelongTo());
@@ -68,6 +67,14 @@ public class CommentDetailActivity extends AppCompatActivity {
             intent.putExtra("debate",debate);
             startActivity(intent);
             return true;
+        }
+        if(item.getItemId()==R.id.action_reply){
+            Intent intent=new Intent(this,CommentActivity.class);
+            intent.putExtra("debateID",mComment.getBelongTo());
+            intent.putExtra("title",mComment.getTitle());
+            intent.putExtra("reply",true);
+            intent.putExtra("nick",mComment.getNick());
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -81,12 +88,22 @@ public class CommentDetailActivity extends AppCompatActivity {
         mLiked = (TextView) findViewById(R.id.tv_like_detail_comment);
         TextView mContent= (TextView) findViewById(R.id.tv_content_detail_comment);
         TextView mDate= (TextView) findViewById(R.id.tv_date_detail_comment);
+
         x.image().bind(mAvatar, mComment.getAvatar());
         mNick.setText(mComment.getNick());
         mLiked.setText(mComment.getLike() + "");
         mDate.setText("创建于 "+mComment.getCreatedAt().substring(0,10));
         if(isLiked) mLiked.setTextColor(getResources().getColor(R.color.HeartRed));
-        mContent.setText(mComment.getContent());
+        String content=mComment.getContent();
+        if(content.startsWith("@")) {
+            int i = content.indexOf(" ");
+            SpannableStringBuilder style=new SpannableStringBuilder(content);
+            style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.MainBlue)),0,i, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            mContent.setText(style);
+        }else{
+            mContent.setText(content);
+        }
+
     }
 
 

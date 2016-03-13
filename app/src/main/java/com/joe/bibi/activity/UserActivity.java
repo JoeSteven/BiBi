@@ -17,6 +17,7 @@ import com.joe.bibi.R;
 import com.joe.bibi.application.BBApplication;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.domain.Comment;
+import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
 import com.joe.bibi.view.PullUpListView;
 
@@ -82,7 +83,11 @@ public class UserActivity extends AppCompatActivity {
         if(mUser==null){
             queryUser();
         }else{
-            x.image().bind(mAvatar, mUser.getAvatarUrl());
+            if(mUser.getAvatarUrl().equals("default")){
+                mAvatar.setImageResource(PrefUtils.getInt(UserActivity.this, "defaultAvatar", R.drawable.ic_1_default));
+            }else{
+                x.image().bind(mAvatar, mUser.getAvatarUrl());
+            }
             mNick.setText(mUser.getNick());
             if(TextUtils.isEmpty(mUser.getDesc())){
                 mDesc.setText("");
@@ -233,11 +238,11 @@ public class UserActivity extends AppCompatActivity {
                     break;
                 case Comment.NEUTRAL_COMMENT:
                     //holder.like.setBackground(getDrawable(R.drawable.shape_text_gray));
-                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
+                    holder.like.setBackgroundResource(R.drawable.shape_text_gray);
                     break;
                 case Comment.NEGATIVE_COMMENT:
                     // holder.like.setBackground(getDrawable(R.drawable.shape_text_blue));
-                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
+                    holder.like.setBackgroundResource(R.drawable.shape_text_blue);
                     break;
 
             }
@@ -259,7 +264,12 @@ public class UserActivity extends AppCompatActivity {
             public void onSuccess(List<BBUser> list) {
                 if(list.size()>0){
                     mUser=list.get(0);
-                    x.image().bind(mAvatar, list.get(0).getAvatarUrl());
+                    if(list.get(0).getAvatarUrl().equals("default")){
+                        mAvatar.setImageResource(PrefUtils.getInt(UserActivity.this, "defaultAvatar", R.drawable.ic_1_default));
+                    }else{
+                        x.image().bind(mAvatar, list.get(0).getAvatarUrl());
+                    }
+
                     mNick.setText(list.get(0).getNick());
                     if(TextUtils.isEmpty(list.get(0).getDesc())){
                         mDesc.setText("");

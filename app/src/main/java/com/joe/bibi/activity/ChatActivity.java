@@ -37,6 +37,7 @@ import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.receiver.MyMessageReceiver;
 import com.joe.bibi.utils.CommonUtils;
 import com.joe.bibi.utils.NetUtils;
+import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.TimeUtil;
 import com.joe.bibi.utils.ToastUtils;
 import com.joe.bibi.view.NewRecordPlayClickListener;
@@ -325,7 +326,10 @@ public class ChatActivity extends AppCompatActivity implements EventListener{
                     holder.message.setText(msg.getContent());
                     break;
             }
+
             x.image().bind(holder.Avatar,msg.getBelongAvatar());
+
+
             //点击头像跳转到用户主页
             holder.Avatar.setOnClickListener(new View.OnClickListener() {
                 @Override

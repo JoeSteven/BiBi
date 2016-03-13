@@ -46,6 +46,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.ResetPasswordByEmailListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -63,8 +64,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        initBmob();
-        isFirstTimeLogin();
         initView();
         initData();
         autoLogin();
@@ -117,8 +116,8 @@ public class LoginActivity extends AppCompatActivity {
         query.findObjects(this, new FindListener<BBUser>() {
             @Override
             public void onSuccess(List<BBUser> list) {
-                if(list.size()>0){
-                    x.image().bind(circularImageView,list.get(0).getAvatarUrl());
+                if (list.size() > 0) {
+                    x.image().bind(circularImageView, list.get(0).getAvatarUrl());
                 }
             }
 
@@ -134,16 +133,10 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("BB","初始化Data-login");
         bbUser = BmobUser.getCurrentUser(this, BBUser.class);
         if(bbUser==null) return;
+
         x.image().bind(circularImageView,bbUser.getAvatarUrl());
-        Log.d("BB","bbUser不为空-login");
-       /* File avatar=new File(PrefUtils.getString(this, ConsUtils.AVATAR, ""));
-        if(avatar.exists()){
-            //从本地读取头像
-            Bitmap bitmap= BitmapFactory.decodeFile(PrefUtils.getString(this,ConsUtils.AVATAR,""));
-            circularImageView.setImageBitmap(bitmap);
-        }else{
-            getAvatarFromCloud();
-        }*/
+
+        Log.d("BB", "bbUser不为空-login");
         if(!PrefUtils.getString(this,ConsUtils.USER_NAME,"").equals("")){
             mUserName.setText(PrefUtils.getString(this, ConsUtils.USER_NAME, ""));
         }
@@ -227,18 +220,6 @@ public class LoginActivity extends AppCompatActivity {
             handler.sendEmptyMessageDelayed(AUTO_LOGIN, 2000);
         }
     }
-    private void initBmob() {
-        BmobChat.DEBUG_MODE = true;
-        //BmobIM SDK初始化--只需要这一段代码即可完成初始化
-        BmobChat.getInstance(this).init(ConsUtils.APPLICATION_ID);
-        // 使用推送服务时的初始化操作
-        BmobInstallation.getCurrentInstallation(this).save();
-        // 启动推送服务
-        BmobChat.DEBUG_MODE = true;
-        //BmobIM SDK初始化--只需要这一段代码即可完成初始化
-        BmobChat.getInstance(this).init(ConsUtils.APPLICATION_ID);
-    }
-
 
     private void initReceiver() {
         //注册一个广播接收者

@@ -2,8 +2,9 @@
 An platform for debate
 
 ## 应用介绍
-一个类似于知乎的辩论社交应用
-目前还在开发中
+一个辩论社交应用
+**[demo下载点我](http://file.bmob.cn/M03/DF/70/oYYBAFblIv2AV2gCAC5tn-M-zxo502.apk)**
+**[功能演示点我](http://www.jianshu.com/p/7a32322cd8cb)**
 ## 应用截图
 
 ![](http://upload-images.jianshu.io/upload_images/1473110-ecbbfa59ecf475bb.gif?imageMogr2/auto-orient/strip)

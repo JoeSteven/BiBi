@@ -291,13 +291,13 @@ public abstract class BasePager {
                 holder= (ViewHolder) convertView.getTag();
             }
             x.image().bind(holder.avatar, debate.getAvatar());
-            int change=debate.getTotal()/100;
+            int change=debate.getComment()/100;
             double total=change;
             if(total>9.0){
                 total=total/10.0;
-                holder.total.setText("热度 " + total + "K");
+                holder.total.setText("评论 " + total + "K");
             }else{
-                holder.total.setText("热度 "+debate.getTotal());
+                holder.total.setText("评论 "+debate.getComment());
             }
             holder.title.setText(debate.getTitle());
 

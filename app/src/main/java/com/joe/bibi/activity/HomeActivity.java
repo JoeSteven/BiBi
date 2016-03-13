@@ -18,21 +18,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.joe.bibi.R;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.fragment.HomeFragment;
 import com.joe.bibi.utils.ConsUtils;
+import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
 
 import org.xutils.x;
 
 import cn.bmob.im.db.BmobDB;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.BmobUpdateListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
+import cn.bmob.v3.update.UpdateResponse;
+import cn.bmob.v3.update.UpdateStatus;
 
 /*
-* Rereshing 要分页加载，区分下拉刷新和上拉加载更多，用ListView实现pullUp效果
+* Refreshing 要分页加载，区分下拉刷新和上拉加载更多，用ListView实现pullUp效果
 * query.setSkip()设置跳过数据条数 =currentPage*count+1;
 * query.setLimit(count);
 * */
@@ -51,6 +59,9 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if(PrefUtils.getBoolean(this,ConsUtils.IS_UPDATE,true)){
+            BmobUpdateAgent.update(this);
+        }
         initView();
         initData();
     }
@@ -103,6 +114,23 @@ public class HomeActivity extends AppCompatActivity
         mUser = BBUser.getCurrentUser(this, BBUser.class);
         //设置用户名和头像
         showAvatarAndNick();
+        //用户换设备登陆后一样可以接收到信息
+        BmobInstallation installation=new BmobInstallation(this);
+        if(mUser.getInstallId()!=installation.getInstallationId()){
+            mUser.setInstallId(installation.getInstallationId());
+            mUser.update(this, mUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+
+                }
+            });
+        }
+
     }
 
     //展示未读提示
@@ -129,7 +157,7 @@ public class HomeActivity extends AppCompatActivity
         //先检查本地缓存
         Log.d("BB","准备显示头像");
         mNickName.setText(mUser.getNick());
-        x.image().bind(mAvatar,mUser.getAvatarUrl());
+        x.image().bind(mAvatar, mUser.getAvatarUrl());
     }
 
 
@@ -177,6 +205,10 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
             mUser.logOut(this);
             finish();
+        }else if(id==R.id.update_count_drawer){
+            BmobUpdateAgent.update(this);
+        }else if(id==R.id.about_count_drawer){
+            startActivity(new Intent(this,AboutActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

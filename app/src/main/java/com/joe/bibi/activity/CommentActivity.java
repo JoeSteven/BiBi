@@ -11,12 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.joe.bibi.R;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.domain.Comment;
 import com.joe.bibi.domain.Debate;
 import com.joe.bibi.domain.Follow;
+import com.joe.bibi.domain.PushMessage;
 import com.joe.bibi.utils.ToastUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,7 @@ public class CommentActivity extends AppCompatActivity {
     private String mTitle;
     private String mUserName;
     private Comment comment;
+    private boolean mReply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,7 @@ public class CommentActivity extends AppCompatActivity {
         mDebateID = getIntent().getStringExtra("debateID");
         mTitle = getIntent().getStringExtra("title");
         mUserName = getIntent().getStringExtra("username");
+        mReply = getIntent().getBooleanExtra("reply",false);
         initView();
     }
 
@@ -114,7 +121,11 @@ public class CommentActivity extends AppCompatActivity {
         comment.setLike(0);
         comment.setUnLike(0);
         comment.setTitle(mTitle);
-        comment.setContent(mComment.getText().toString());
+        String reply="";
+        if(mReply){
+            reply="@"+getIntent().getStringExtra("nick")+" ";
+        }
+        comment.setContent(reply+mComment.getText().toString());
         Debate debate=new Debate();
         debate.increment("comment");
         debate.update(this, mDebateID, new UpdateListener() {
@@ -134,7 +145,12 @@ public class CommentActivity extends AppCompatActivity {
 
                 ToastUtils.make(CommentActivity.this, "发布成功！");
                 sendBroadcast(new Intent("com.joe.bibi.COMMENT"));
-                pushComment();
+                if(mReply){
+                    replyComment();
+                }else{
+                    pushComment();
+                }
+
                 finish();
             }
 
@@ -145,6 +161,43 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //回复评论
+    private void replyComment() {
+        BmobQuery<BBUser> idQuery=new BmobQuery<BBUser>();
+        idQuery.addWhereEqualTo("nick", getIntent().getStringExtra("nick"));
+        idQuery.findObjects(this, new FindListener<BBUser>() {
+            @Override
+            public void onSuccess(List<BBUser> list) {
+                if (list.size() > 0) {
+                    sendReply(list.get(0).getInstallId());
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
+    }
+
+    private void sendReply(String installId) {
+        String installationId =installId;
+        BmobPushManager bmobPush = new BmobPushManager(CommentActivity.this);
+        BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
+        query.addWhereEqualTo("installationId", installationId);
+        bmobPush.setQuery(query);
+        PushMessage pm=new PushMessage(comment.getObjectId(),1);
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("alert",pm.alert);
+            jsonObject.put("tag",pm.tag);
+            jsonObject.put("type",pm.type);
+            bmobPush.pushMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void pushComment() {

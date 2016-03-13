@@ -129,8 +129,9 @@ public class SignActivity extends AppCompatActivity {
     private void doSign(String mail, String pass, String nick){
         final BBUser bbUser=new BBUser();
         if(mAvatar.equals("")){
-            bbUser.setAvatar(ConsUtils.DEFAULT_AVATAR);
-            bbUser.setAvatarUrl("");
+            String avatar=ConsUtils.getDefaultAvatar();
+            bbUser.setAvatar(avatar);
+            bbUser.setAvatarUrl(avatar);
         }else{
             bbUser.setAvatar(AvatarUrl);
             bbUser.setAvatarUrl(AvatarUrl);
@@ -251,34 +252,39 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private void saveAvatar() {
+
         //将图片上传到服务器
-        BTPFileResponse response = BmobProFile.getInstance(this).upload(avatarUtils.getmAvatarPath(), new UploadListener() {
+        if(isUpdateAvatar) {
+            BTPFileResponse response = BmobProFile.getInstance(this).upload(avatarUtils.getmAvatarPath(), new UploadListener() {
 
-            @Override
-            public void onSuccess(String fileName,String url,BmobFile file) {
-                Log.i("bmob","文件上传成功："+fileName+",可访问的文件地址："+file.getUrl());
-                // TODO Auto-generated method stub
-                // fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
-                // url        ：文件地址
-                // file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。file.getUrl()
-                // 注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），
-                // 需要经过`URL签名`得到真正的可访问的URL地址,
-                // 当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
-                PrefUtils.putString(SignActivity.this,ConsUtils.AVATAR_NAME,fileName);
-                AvatarName=fileName;
-                mAvatar =url;
-                AvatarUrl=file.getUrl();
-                signUp();
-            }
+                @Override
+                public void onSuccess(String fileName, String url, BmobFile file) {
+                    Log.i("bmob", "文件上传成功：" + fileName + ",可访问的文件地址：" + file.getUrl());
+                    // TODO Auto-generated method stub
+                    // fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
+                    // url        ：文件地址
+                    // file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。file.getUrl()
+                    // 注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），
+                    // 需要经过`URL签名`得到真正的可访问的URL地址,
+                    // 当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
+                    PrefUtils.putString(SignActivity.this, ConsUtils.AVATAR_NAME, fileName);
+                    AvatarName = fileName;
+                    mAvatar = url;
+                    AvatarUrl = file.getUrl();
+                    signUp();
+                }
 
-            @Override
-            public void onProgress(int progress) {
-            }
+                @Override
+                public void onProgress(int progress) {
+                }
 
-            @Override
-            public void onError(int statuscode, String errormsg) {
-            }
-        });
+                @Override
+                public void onError(int statuscode, String errormsg) {
+                }
+            });
+        }else{
+
+        }
     }
 
 }

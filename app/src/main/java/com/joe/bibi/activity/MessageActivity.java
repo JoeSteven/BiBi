@@ -29,6 +29,7 @@ import com.joe.bibi.application.BBApplication;
 import com.joe.bibi.domain.BBUser;
 import com.joe.bibi.receiver.MyMessageReceiver;
 import com.joe.bibi.utils.FaceTextUtils;
+import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.TimeUtil;
 import com.joe.bibi.utils.ToastUtils;
 
@@ -57,7 +58,6 @@ public class MessageActivity extends AppCompatActivity implements EventListener 
     private AddAdapter mAddAdapter;
     private ChatAdapter mChatAdapter;
     private List<BmobRecent> mRecents;
-    private int mVisibleItem =0;
     private NewMessageReceiver receiver;
 
     @Override
@@ -170,9 +170,6 @@ public class MessageActivity extends AppCompatActivity implements EventListener 
                 Intent intent = new Intent(MessageActivity.this, ChatActivity.class);
                 intent.putExtra("user", user);
                 mListView.setAdapter(mChatAdapter);
-                if (mVisibleItem != 0) {
-                    mListView.setSelection(mVisibleItem);
-                }
                 startActivity(intent);
             }
         });
@@ -184,7 +181,6 @@ public class MessageActivity extends AppCompatActivity implements EventListener 
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                mVisibleItem = visibleItemCount;
             }
         });
     }
@@ -203,9 +199,6 @@ public class MessageActivity extends AppCompatActivity implements EventListener 
             Log.e("BB","收到广播");
             if(isShowChat){
                 mListView.setAdapter(mChatAdapter);
-                if (mVisibleItem != 0) {
-                    mListView.setSelection(mVisibleItem);
-                }
             }
             // 记得把广播给终结掉
             abortBroadcast();
@@ -286,6 +279,7 @@ public class MessageActivity extends AppCompatActivity implements EventListener 
             }else{
                 holder= (ViewHolder) v.getTag();
             }
+
             x.image().bind(holder.avatarChat, recent.getAvatar());
             holder.nickChat.setText(recent.getNick());
             holder.date.setText(TimeUtil.getChatTime(recent.getTime()));
@@ -342,6 +336,7 @@ public class MessageActivity extends AppCompatActivity implements EventListener 
             }else{
                 holder= (ViewHolder) v.getTag();
             }
+
             x.image().bind(holder.avatarAdd, invitation.getAvatar());
             holder.nickAdd.setText(invitation.getNick());
             int status=invitation.getStatus();

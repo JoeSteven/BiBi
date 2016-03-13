@@ -32,6 +32,9 @@
     <!-- 侧滑菜单-->
     <item type="id" name="count_set_drawer"/>
     <item type="id" name="exit_count_drawer"/>
+    <item type="id" name="about_count_drawer"/>
+    <item type="id" name="update_count_drawer"/>
+
     <!-- 个人资料修改-->
     <item type="id" name="iv_avatar_update"/>
     <item type="id" name="tv_nick_update"/>

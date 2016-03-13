@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.LoginActivity">
     <item
+        android:id="@+id/action_reply"
+        android:orderInCategory="100"
+        android:title="回复"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_done"
         android:orderInCategory="100"
         android:title="查看辩题"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

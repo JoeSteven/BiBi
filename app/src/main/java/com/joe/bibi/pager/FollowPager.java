@@ -27,7 +27,7 @@ public class FollowPager extends BasePager {
 
     public FollowPager(Activity mActivity) {
         super(mActivity);
-        mOrder="-total";
+        mOrder="-comment,-total";
         mFollowedIdList = new ArrayList<String>();
     }
     @Override

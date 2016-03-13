@@ -171,9 +171,9 @@ public class NewRecordPlayClickListener implements View.OnClickListener {
      */
     private void startRecordAnimation() {
         if (message.getBelongId().equals(currentObjectId)) {
-            iv_voice.setImageResource(R.anim.anim_chat_voice_right);
+            iv_voice.setImageResource(R.drawable.anim_chat_voice_right);
         } else {
-            iv_voice.setImageResource(R.anim.anim_chat_voice_left);
+            iv_voice.setImageResource(R.drawable.anim_chat_voice_left);
         }
         anim = (AnimationDrawable) iv_voice.getDrawable();
         anim.start();

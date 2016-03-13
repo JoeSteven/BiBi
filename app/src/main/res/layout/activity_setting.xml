@@ -30,4 +30,10 @@
         app:setDesc="开启或关闭通知消息的声音和震动提醒"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <com.joe.bibi.view.SettingView
+        android:id="@+id/sv_update_setting"
+        app:setTitle="自动检查更新"
+        app:setDesc="关闭后，将不再自动检查更新，您可以在菜单中手动更新"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

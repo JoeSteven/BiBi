@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.joe.bibi.domain.Comment;
 import com.joe.bibi.domain.Debate;
 import com.joe.bibi.domain.Follow;
 import com.joe.bibi.utils.AnimUtils;
+import com.joe.bibi.utils.ConsUtils;
 import com.joe.bibi.utils.PrefUtils;
 import com.joe.bibi.utils.ToastUtils;
 import com.joe.bibi.view.PullUpListView;
@@ -202,7 +206,12 @@ public class DebateActivity extends AppCompatActivity {
         mNegBut = (Button) mHeader.findViewById(R.id.bt_negative_debate);
         mComNum = (TextView) mHeader.findViewById(R.id.tv_comnum_debate);
         //处理Header显示
-        x.image().bind(mAvatarPub, mDebate.getAvatar());
+        if(TextUtils.isEmpty(mDebate.getAvatar())){
+            mAvatarPub.setImageResource(PrefUtils.getInt(DebateActivity.this, "defaultAvatar", R.drawable.ic_1_default));
+        }else{
+            x.image().bind(mAvatarPub, mDebate.getAvatar());
+        }
+
         mDate.setText(mDebate.getCreatedAt().substring(0,10));
         mTitle.setText(mDebate.getTitle());
         //如果没有辩题描述就不显示控件
@@ -366,9 +375,22 @@ public class DebateActivity extends AppCompatActivity {
                 holder= (ViewHolder) convertView.getTag();
             }
             //头像显示
-            x.image().bind(holder.avatar, comment.getAvatar());
+            if(TextUtils.isEmpty(comment.getAvatar())){
+                holder.avatar.setImageResource(PrefUtils.getInt(DebateActivity.this, "defaultAvatar", R.drawable.ic_1_default));
+            }else{
+                x.image().bind(holder.avatar, comment.getAvatar());
+            }
             holder.nick.setText(comment.getNick());
-            holder.content.setText(comment.getContent());
+            //内容是否是回复
+            String content=comment.getContent();
+            if(content.startsWith("@")) {
+                int i = content.indexOf(" ");
+                SpannableStringBuilder style=new SpannableStringBuilder(content);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.MainBlue)),0,i, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                holder.content.setText(style);
+            }else{
+                holder.content.setText(content);
+            }
             int change=comment.getLike()/100;
             double total=change;
             if(total>9.0){
@@ -386,11 +408,11 @@ public class DebateActivity extends AppCompatActivity {
                     break;
                 case Comment.NEUTRAL_COMMENT:
                     //holder.like.setBackground(getDrawable(R.drawable.shape_text_gray));
-                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
+                    holder.like.setBackgroundResource(R.drawable.shape_text_gray);
                     break;
                 case Comment.NEGATIVE_COMMENT:
                    // holder.like.setBackground(getDrawable(R.drawable.shape_text_blue));
-                    holder.like.setBackgroundResource(R.drawable.shape_text_red);
+                    holder.like.setBackgroundResource(R.drawable.shape_text_blue);
                     break;
 
             }

@@ -33,10 +33,12 @@ public class SettingActivity extends AppCompatActivity {
         SettingView mVoiceSet= (SettingView) findViewById(R.id.sv_voice_setting);
         SettingView mVibrate= (SettingView) findViewById(R.id.sv_vibrate_setting);
         SettingView mMsg= (SettingView) findViewById(R.id.sv_msg_setting);
+        SettingView mUpdate= (SettingView) findViewById(R.id.sv_update_setting);
         mCommentSet.setToggle(application.isCommentAllowed);
         mVoiceSet.setToggle(application.isVoiceAllowed);
         mVibrate.setToggle(application.isVibrateAllowed);
         mMsg.setToggle(application.isMessageAllowed);
+        mUpdate.setToggle(PrefUtils.getBoolean(this,ConsUtils.IS_UPDATE,true));
         mCommentSet.setOnToggleChangeListener(new SettingView.OnToggleChangeListener() {
             @Override
             public void onChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,6 +65,12 @@ public class SettingActivity extends AppCompatActivity {
             public void onChanged(CompoundButton buttonView, boolean isChecked) {
                 PrefUtils.putBoolean(SettingActivity.this, ConsUtils.IS_VIBRATE_ALLOWED,isChecked);
                 application.isVibrateAllowed=isChecked;
+            }
+        });
+        mUpdate.setOnToggleChangeListener(new SettingView.OnToggleChangeListener() {
+            @Override
+            public void onChanged(CompoundButton buttonView, boolean isChecked) {
+                PrefUtils.putBoolean(SettingActivity.this, ConsUtils.IS_UPDATE,isChecked);
             }
         });
     }

@@ -17,4 +17,5 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>

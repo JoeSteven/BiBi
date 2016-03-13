@@ -9,7 +9,7 @@ import android.util.Log;
 public class HotestPager extends BasePager {
     public HotestPager(Activity mActivity) {
         super(mActivity);
-        mOrder="-total";
+        mOrder="-comment,-total";
     }
     @Override
     public void initTitle() {

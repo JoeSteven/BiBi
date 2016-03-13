@@ -51,20 +51,18 @@ public class MyPushReceiver extends BroadcastReceiver {
         this.context=context;
         this.application=BBApplication.getInstance();
         if(intent.getAction().equals("cn.bmob.push.action.MESSAGE")){
-            Log.d("BB", "客户端收到推送内容：" + intent.getStringExtra("msg"));
+            Log.e("BB", "客户端收到推送内容：" + intent.getStringExtra("msg"));
             String json=intent.getStringExtra("msg");
-            String msg=parseData(json);
-            if(!TextUtils.isEmpty(msg)){
+            if(json.contains("comment&bibi&621")){
                 //评论消息
-
-                showCommentMessage(msg);
+                showCommentMessage(parseData(json));
             }else{
             }
         }
     }
-    private void showCommentMessage(String msg) {
+    private void showCommentMessage(final PushMessage msg) {
         BmobQuery<Comment> query=new BmobQuery<Comment>();
-        query.addWhereEqualTo("objectId", msg);
+        query.addWhereEqualTo("objectId", msg.alert);
         query.findObjects(context, new FindListener<Comment>() {
             @Override
             public void onSuccess(List<Comment> list) {
@@ -73,7 +71,7 @@ public class MyPushReceiver extends BroadcastReceiver {
                     Log.d("BB",comment.getContent());
                     if(application.isCommentAllowed)
                     {
-                        showNotification(context, comment);
+                        showNotification(context, comment,msg.tag);
                     }
                 }
 
@@ -86,12 +84,12 @@ public class MyPushReceiver extends BroadcastReceiver {
         });
     }
 
-    private String parseData(String json) {
+    private PushMessage parseData(String json) {
         Gson gson=new Gson();
         PushMessage pm=gson.fromJson(json, PushMessage.class);
-        return pm.alert;
+        return pm;
     }
-    private void showNotification(Context context, Comment comment) {
+    private void showNotification(Context context, Comment comment, int tag) {
 
         wakePhoneAndUnlock();
         Intent notificationIntent = new Intent(context,CommentDetailActivity.class);
@@ -102,7 +100,14 @@ public class MyPushReceiver extends BroadcastReceiver {
         Notification.Builder builder=new Notification.Builder(context);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
-        builder.setTicker("有新的评论");
+        if(tag!=0){
+            builder.setTicker("有人回复了你");
+            builder.setContentTitle("有人回复了你");
+        }else{
+            builder.setTicker("有新的评论");
+            builder.setContentTitle(comment.getTitle());
+        }
+
         //设置通知声音
         builder.setWhen(System.currentTimeMillis());
         builder.setContentTitle(comment.getTitle()); //设置下拉列表里的标题

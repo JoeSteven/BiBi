@@ -39,7 +39,7 @@
             android:background="@drawable/chat_left_qp"
             android:clickable="true"
             android:focusable="true"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:lineSpacingExtra="2dp"
             android:maxWidth="225.0dip"
             android:minWidth="50dp"
